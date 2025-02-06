@@ -2,9 +2,11 @@ import numpy as np
 
 def trial_wavefunction(x, alpha):
     """Computes the trial wavefunction for given positions x and parameter alpha."""
-    if isinstance(x, np.ndarray):
-        return np.exp(-alpha * x) * (x > 0)  # Element-wise multiplication applies the condition
-    return np.exp(-alpha * x) if x > 0 else 0
+    result = np.exp(-alpha * x)
+    if np.any(x <= 0): 
+     raise ValueError("Negative and 0 values for the distance are not allowed for this physical system.")
+    
+    return result 
 
 def local_energy_func(x, alpha):
     """Computes the local energy for given positions x and parameter alpha."""
