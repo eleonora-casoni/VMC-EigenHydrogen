@@ -3,3 +3,4 @@ __pycache__/dE_dalpha.cpython-310.pyc
 __pycache__/local_energy.cpython-310.pyc
 __pycache__/metropolis.cpython-310.pyc
 __pycache__/wavefunction.cpython-310.pyc
+run_simulation.py
