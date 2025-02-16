@@ -3,10 +3,8 @@ from tqdm import tqdm
 
 def trial_wavefunction(x, alpha):
     """Computes the trial wavefunction for given positions x and parameter alpha."""
-    result = np.exp(-alpha * x)
-    if np.any(x <= 0): 
-     raise ValueError("Negative and 0 values for the distance are not allowed for this physical system.")
-    
+
+    result = np.where(x > 0, np.exp(-alpha * x), 0)
     return result 
 
 def local_energy_func(x, alpha):
