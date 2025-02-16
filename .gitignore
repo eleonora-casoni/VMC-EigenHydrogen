@@ -1,10 +1,4 @@
-__pycache__/alpha_optimization.cpython-310.pyc
-__pycache__/dE_dalpha.cpython-310.pyc
-__pycache__/local_energy.cpython-310.pyc
-__pycache__/metropolis.cpython-310.pyc
-__pycache__/wavefunction.cpython-310.pyc
+__pycache__/
 run_simulation.py
 .vscode/settings.json
-tests/__pycache__/__init__.cpython-310.pyc
-__pycache__/simulation.cpython-310.pyc
-tests/__pycache__/trial_wavefunction_test.cpython-310.pyc
+
