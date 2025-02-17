@@ -34,10 +34,7 @@ def metropolis(equilibration_steps, numsteps, numwalkers, alpha):
 
     for j in tqdm(range(numsteps)):  # Progress bar
         for i in range(equilibration_steps):
-            new_position_vec = position_vec + 0.1*np.random.randn(numwalkers)
-            # Reject moves where x < 0 (those walkers stay at their previous positions)
-            valid_moves = new_position_vec > 0
-            new_position_vec = np.where(valid_moves, new_position_vec, position_vec)
+            new_position_vec = position_vec + 0.1 * np.random.randn(numwalkers)
             p = trial_wavefunction(new_position_vec, alpha) / trial_wavefunction(position_vec, alpha)
             rand_unif_array = np.random.uniform(size=len(p))
             position_vec = np.where(p > rand_unif_array, new_position_vec, position_vec)
