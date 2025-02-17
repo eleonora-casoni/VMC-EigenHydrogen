@@ -22,7 +22,7 @@ def plot_histogram(position_vec_fin, save_path=None):
     plt.grid(True)
     if save_path:
         plt.savefig(save_path, dpi=300)
-        print(f"Saved histogram to {save_path}")
+        print(f"Saved final positions to {save_path}")
     else:
         plt.show()
 
@@ -100,4 +100,4 @@ def save_results_to_csv(position_vec_fin, alpha_buffer, E_buffer, output_dir="re
         f"{output_dir}/energy_evolution.csv", index=False
     )
 
-    print(f"Results saved to {output_dir}")
+    print(f"Values saved to {output_dir}")
