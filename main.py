@@ -33,11 +33,11 @@ def main():
     print('\n expected energy value = -1/2')
 
     #final results
-    print(f"Final optimized alpha: {alpha_fin}")
-    print(f"Mean final position: {position_vec_fin.mean()}")
-    print(f"variance of mean posiition:", position_vec_fin.var())
-    print(f"Mean local energy: {E_buffer.mean()}")
-    print(f"variance of mean local energy:", E_buffer.var())
+    print(f"Final optimized alpha: {alpha_fin:.3f}")
+    print(f"Mean final position: {position_vec_fin.mean():.3f}")
+    print(f"variance of mean posiition:{position_vec_fin.var():.3f}")
+    print(f"Mean local energy: {E_buffer.mean():.3f}")
+    print(f"variance of mean local energy:{ E_buffer.var():.3f}")
 
     
     save_results_to_csv(position_vec_fin, alpha_buffer, E_buffer, args.output_dir)
