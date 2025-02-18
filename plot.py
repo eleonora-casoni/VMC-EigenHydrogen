@@ -5,11 +5,11 @@ import pandas as pd
 
 def plot_histogram(position_vec_fin, save_path=None):
     """
-    Generate and optionally save a histogram of final positions.
+    Generate a histogram of final positions.
 
     Args:
         position_vec_fin (np.ndarray): Array of final walker positions.
-        save_path (str): Path to save the plot. If None, displays the plot.
+        save_path (str): Path to save the plot. 
 
     Returns:
         None
@@ -20,11 +20,10 @@ def plot_histogram(position_vec_fin, save_path=None):
     plt.ylabel("Density")
     plt.title("Histogram of Final Positions")
     plt.grid(True)
-    if save_path:
-        plt.savefig(save_path, dpi=300)
-        print(f"Saved final positions to {save_path}")
-    else:
-        plt.show()
+   
+    plt.savefig(save_path, dpi=300)
+    print(f"Saved final positions to {save_path}")
+    
 
 
 def plot_alpha_evolution(alpha_buffer, save_path=None):
@@ -33,7 +32,7 @@ def plot_alpha_evolution(alpha_buffer, save_path=None):
 
     Args:
         alpha_buffer (np.ndarray): Array of alpha values over time.
-        save_path (str): Path to save the plot. If None, displays the plot.
+        save_path (str): Path to save the plot. 
 
     Returns:
         None
@@ -44,11 +43,10 @@ def plot_alpha_evolution(alpha_buffer, save_path=None):
     plt.ylabel("Alpha")
     plt.title("Evolution of Alpha")
     plt.grid(True)
-    if save_path:
-        plt.savefig(save_path, dpi=300)
-        print(f"Saved alpha evolution plot to {save_path}")
-    else:
-        plt.show()
+    
+    plt.savefig(save_path, dpi=300)
+    print(f"Saved alpha evolution plot to {save_path}")
+    
 
 
 def plot_energy_evolution(E_buffer, save_path=None):
@@ -57,7 +55,7 @@ def plot_energy_evolution(E_buffer, save_path=None):
 
     Args:
         E_buffer (np.ndarray): Array of energy values over time.
-        save_path (str): Path to save the plot. If None, displays the plot.
+        save_path (str): Path to save the plot. 
 
     Returns:
         None
@@ -68,11 +66,10 @@ def plot_energy_evolution(E_buffer, save_path=None):
     plt.ylabel("Energy")
     plt.title("Evolution of Energy")
     plt.grid(True)
-    if save_path:
-        plt.savefig(save_path, dpi=300)
-        print(f"Saved energy evolution plot to {save_path}")
-    else:
-        plt.show()
+    
+    plt.savefig(save_path, dpi=300)
+    print(f"Saved energy evolution plot to {save_path}")
+   
 
 
 def save_results_to_csv(position_vec_fin, alpha_buffer, E_buffer, output_dir="results"):
