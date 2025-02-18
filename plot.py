@@ -3,7 +3,7 @@ import os
 import pandas as pd
 
 
-def plot_histogram(position_vec_fin, save_path=None):
+def plot_position(position_vec_fin, save_path=None):
     """
     Generate a histogram of final positions.
 

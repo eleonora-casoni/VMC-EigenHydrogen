@@ -1,7 +1,7 @@
 import argparse
 from simulation import metropolis
 from plot import (
-    plot_histogram,
+    plot_position,
     plot_alpha_evolution,
     plot_energy_evolution,
     save_results_to_csv,
@@ -41,7 +41,7 @@ def main():
 
     
     save_results_to_csv(position_vec_fin, alpha_buffer, E_buffer, args.output_dir)
-    plot_histogram(position_vec_fin, save_path=f"{args.output_dir}/histogram_positions.png")
+    plot_position(position_vec_fin, save_path=f"{args.output_dir}/histogram_positions.png")
     plot_alpha_evolution(alpha_buffer, save_path=f"{args.output_dir}/alpha_evolution.png")
     plot_energy_evolution(E_buffer, save_path=f"{args.output_dir}/energy_evolution.png")
   
