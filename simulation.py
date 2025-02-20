@@ -9,8 +9,6 @@ def trial_wavefunction(x, alpha):
 
 def local_energy_func(x, alpha):
     """Computes the local energy for given positions x and parameter alpha."""
-    #if np.any(x == 0):  # Avoid division by zero
-        #raise ValueError("Position x must be nonzero to avoid division by zero.")
     
     return -1/x - (alpha**2)/2 + alpha/x
 
@@ -26,13 +24,13 @@ def alpha_opt_on_fly(position_vec, alpha):
 
 
 def metropolis(equilibration_steps, numsteps, numwalkers, alpha):
-    position_vec = np.random.uniform(low=2, high=3, size=numwalkers)  # Initialize positions
+    position_vec = np.random.uniform(low=2, high=3, size=numwalkers)  
     initial_pos = position_vec
     alpha_buffer = np.empty(numsteps)
     dE_da_buffer = np.empty(numsteps)
     E_buffer = np.empty(numsteps)
 
-    for j in tqdm(range(numsteps)):  # Progress bar
+    for j in tqdm(range(numsteps)):  
         for i in range(equilibration_steps):
             new_position_vec = position_vec + 0.1 * np.random.randn(numwalkers)
             denominator = trial_wavefunction(position_vec, alpha)
