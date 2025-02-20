@@ -4,13 +4,12 @@ from simulation import metropolis
 
 def test_raise_error_on_invalid_p():
     """
-    # Force division by zero for one walker
-
-    # Mock rand_unif_array
+    test that metropolis raises value error when forcing division by zero for one walker.
 
     GIVEN: A new_position_vec or position_vec that results in invalid p values (NaN or Inf).
     WHEN: The metropolis function is called.
     THEN: A ValueError should be raised with a comprehensible error message.
+
     """
     equilibration_steps = 1
     numsteps = 1
