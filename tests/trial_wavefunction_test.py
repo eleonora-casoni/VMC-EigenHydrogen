@@ -82,7 +82,7 @@ def test_output_array_length():
     Test that trial_wavefunction returns an output array with the same length as the input array.
 
     GIVEN: An array of x values uniformly distributed between 2 and 3.
-    WHEN: The trial_wavefunction function is called with these inputs and a any alpha value.
+    WHEN: The trial_wavefunction function is called with these inputs and any alpha value.
     THEN: The function should return an output array with the same length as the input array.
     """
     x_uniform = np.random.uniform(low=2.0, high=3.0, size=1000)  
