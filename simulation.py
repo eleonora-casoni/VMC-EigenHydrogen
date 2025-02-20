@@ -9,8 +9,8 @@ def trial_wavefunction(x, alpha):
 
 def local_energy_func(x, alpha):
     """Computes the local energy for given positions x and parameter alpha."""
-    if np.any(x == 0):  # Avoid division by zero
-        raise ValueError("Position x must be nonzero to avoid division by zero.")
+    #if np.any(x == 0):  # Avoid division by zero
+        #raise ValueError("Position x must be nonzero to avoid division by zero.")
     
     return -1/x - (alpha**2)/2 + alpha/x
 
@@ -35,7 +35,13 @@ def metropolis(equilibration_steps, numsteps, numwalkers, alpha):
     for j in tqdm(range(numsteps)):  # Progress bar
         for i in range(equilibration_steps):
             new_position_vec = position_vec + 0.1 * np.random.randn(numwalkers)
-            p = trial_wavefunction(new_position_vec, alpha) / trial_wavefunction(position_vec, alpha)
+            denominator = trial_wavefunction(position_vec, alpha)
+            numerator = trial_wavefunction(new_position_vec, alpha)
+            invalid_indices = denominator == 0
+            if np.any(invalid_indices):
+                print("Error: Division by zero detected in denominator during p calculation.")
+                raise ValueError("Division by zero detected in p calculation.")
+            p = numerator / denominator
             rand_unif_array = np.random.uniform(size=len(p))
             position_vec = np.where(p > rand_unif_array, new_position_vec, position_vec)
 
