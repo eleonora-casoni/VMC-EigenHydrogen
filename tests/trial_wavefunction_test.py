@@ -134,3 +134,33 @@ def test_large_negative_alpha():
 
     with pytest.raises(ValueError, match="Too large negative alpha causes numerical instability."):
         trial_wavefunction(x_values, alpha)
+
+def test_large_positive_alpha():
+    """
+    Test that trial_wavefunction returns values close to zero for extremely large positive alpha.
+
+    GIVEN: A very large positive alpha value.
+    WHEN: The trial_wavefunction function is called with any positive x.
+    THEN: The function should return values very close to zero.
+    """
+    x_values = np.array([1.0, 2.0, 3.0])  
+    alpha = 1e6  
+
+    result = trial_wavefunction(x_values, alpha)
+
+    assert np.allclose(result, 0, atol=1e-10), "The function did not return values close to zero for large positive alpha."
+
+def test_small_positive_alpha():
+    """
+    Test that trial_wavefunction returns values close to 1 for very small positive alpha.
+
+    GIVEN: A very small positive alpha value.
+    WHEN: The trial_wavefunction function is called with any positive x.
+    THEN: The function should return values close to 1.
+    """
+    x_values = np.array([0.1, 1.0, 5.0, 10.0])  
+    alpha = 1e-6  
+
+    result = trial_wavefunction(x_values, alpha)
+    
+    assert np.allclose(result, 1, atol=1e-6), "The function did not return values close to 1 for small positive alpha."
