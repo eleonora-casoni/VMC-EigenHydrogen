@@ -90,3 +90,34 @@ def test_output_array_length():
     result = trial_wavefunction(x_uniform, alpha)
 
     assert len(result) == len(x_uniform), "The output array does not have the same length as the input array."
+
+def test_zero_alpha():
+    """
+    Test that trial_wavefunction returns 1 for when alpha = 0.
+
+    GIVEN: alpha = 0.
+    WHEN: The trial_wavefunction function is called with any positive x.
+    THEN: The function should return 1 for all positive x.
+    """
+    x_values = np.array([0.1, 1.0, 10.0, 100.0])  
+    alpha = 0.0  
+    result = trial_wavefunction(x_values, alpha)
+    expected_output = np.ones_like(x_values)  
+
+    assert np.array_equal(result, expected_output), "The function did not return 1 when alpha = 0."
+
+def test_small_negative_alpha():
+    """
+    Test that trial_wavefunction returns values greater than 1 for small negative alpha.
+
+    GIVEN: A small negative value for alpha.
+    WHEN: The trial_wavefunction function is called with any positive x.
+    THEN: The function should return values greater than 1.
+    """
+    x_values = np.array([0.1, 1.0, 10.0, 100.0])  
+    alpha = -0.01  
+    result = trial_wavefunction(x_values, alpha)
+    expected_output = np.exp(-alpha * x_values)  
+
+    assert np.all(result > 1), "The function did not return values greater than 1 for small negative alpha."
+    assert np.allclose(result, expected_output, atol=1e-10), "The function did not return the expected exponential values."
