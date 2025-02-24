@@ -120,3 +120,17 @@ def test_small_negative_alpha():
     expected_output = np.exp(-alpha * x_values)  
 
     assert np.allclose(result, expected_output, atol=1e-10), "The function did not return the expected exponential values."
+
+def test_large_negative_alpha():
+    """
+    Test that trial_wavefunction raises a ValueError for extremely large negative alpha.
+
+    GIVEN: A very large negative alpha value.
+    WHEN: The trial_wavefunction function is called with any positive x.
+    THEN: The function should raise a ValueError to prevent numerical instability.
+    """
+    x_values = np.array([1.0, 2.0, 3.0])  
+    alpha = -10000.0  
+
+    with pytest.raises(ValueError, match="Too large negative alpha causes numerical instability."):
+        trial_wavefunction(x_values, alpha)

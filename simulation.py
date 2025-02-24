@@ -3,6 +3,8 @@ from tqdm import tqdm
 
 def trial_wavefunction(x, alpha):
     """Computes the trial wavefunction for given positions x and parameter alpha."""
+    if alpha < -1000:  
+     raise ValueError("Too large negative alpha causes numerical instability.")
 
     result = np.where(x > 0, np.exp(-alpha * x), 0)
     return result 
