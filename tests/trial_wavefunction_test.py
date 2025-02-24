@@ -164,3 +164,45 @@ def test_small_positive_alpha():
     result = trial_wavefunction(x_values, alpha)
     
     assert np.allclose(result, 1, atol=1e-6), "The function did not return values close to 1 for small positive alpha."
+
+def test_alpha_list():
+    """
+    Test that trial_wavefunction raises TypeError when alpha is a list.
+
+    GIVEN: Alpha is a list.
+    WHEN: The trial_wavefunction function is called.
+    THEN: A TypeError should be raised.
+    """
+    x_values = np.array([1.0, 2.0, 3.0])
+    alpha = [1.0, 2.0]
+
+    with pytest.raises(TypeError, match="Alpha must be a real number."):
+        trial_wavefunction(x_values, alpha)
+
+def test_alpha_string():
+    """
+    Test that trial_wavefunction raises TypeError when alpha is a string.
+
+    GIVEN: Alpha is a string.
+    WHEN: The trial_wavefunction function is called.
+    THEN: A TypeError should be raised.
+    """
+    x_values = np.array([1.0, 2.0, 3.0])
+    alpha = "one"
+
+    with pytest.raises(TypeError, match="Alpha must be a real number."):
+        trial_wavefunction(x_values, alpha)
+
+def test_alpha_complex():
+    """
+    Test that trial_wavefunction raises TypeError when alpha is a complex number.
+
+    GIVEN: Alpha is a complex number.
+    WHEN: The trial_wavefunction function is called.
+    THEN: A TypeError should be raised.
+    """
+    x_values = np.array([1.0, 2.0, 3.0])
+    alpha = 2 + 3j
+
+    with pytest.raises(TypeError, match="Alpha must be a real number."):
+        trial_wavefunction(x_values, alpha)

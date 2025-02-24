@@ -3,6 +3,9 @@ from tqdm import tqdm
 
 def trial_wavefunction(x, alpha):
     """Computes the trial wavefunction for given positions x and parameter alpha."""
+    if not isinstance(alpha, (int, float)):  
+        raise TypeError("Alpha must be a real number.")
+    
     if alpha < -1000:  
      raise ValueError("Too large negative alpha causes numerical instability.")
 
