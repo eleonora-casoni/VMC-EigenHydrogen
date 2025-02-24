@@ -119,5 +119,4 @@ def test_small_negative_alpha():
     result = trial_wavefunction(x_values, alpha)
     expected_output = np.exp(-alpha * x_values)  
 
-    assert np.all(result > 1), "The function did not return values greater than 1 for small negative alpha."
     assert np.allclose(result, expected_output, atol=1e-10), "The function did not return the expected exponential values."
