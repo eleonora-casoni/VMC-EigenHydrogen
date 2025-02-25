@@ -1,5 +1,4 @@
 import numpy as np
-import pytest
 from simulation import local_energy_func
 
 def test_standard_positive_x():
