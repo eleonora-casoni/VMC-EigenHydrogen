@@ -5,7 +5,7 @@ from simulation import trial_wavefunction
 
 def test_negative_positions():
     """
-    Test that trial_wavefunction() returns 0 for negative positions.
+    Test that trial_wavefunction returns 0 for negative positions.
 
     GIVEN: An array of negative position values.
     WHEN: The trial_wavefunction function is called with these positions and any alpha value.
@@ -21,7 +21,7 @@ def test_negative_positions():
 
 def test_zero_position():
     """
-    Test that trial_wavefunction() returns 0 for position = 0.
+    Test that trial_wavefunction returns 0 for position = 0.
 
     GIVEN: A position array containing zero.
     WHEN: The trial_wavefunction function is called with this position and any alpha value.
