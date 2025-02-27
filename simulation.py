@@ -8,6 +8,9 @@ def trial_wavefunction(x, alpha):
     
     if alpha < -1000:  
      raise ValueError("Too large negative alpha causes numerical instability.")
+    
+    if alpha > 200:  
+        raise ValueError("Too large alpha causes numerical instability.")
 
     result = np.where(x > 0, np.exp(-alpha * x), 0)
     return result 

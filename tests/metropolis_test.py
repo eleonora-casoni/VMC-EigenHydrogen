@@ -85,3 +85,44 @@ def test_small_positive_position_effect():
         assert len(alpha_buffer) == numsteps, "Alpha buffer does not have the expected length."
         assert len(E_buffer) == numsteps, "Energy buffer does not have the expected length."     
 
+def test_alpha_convergence():
+    """
+    Test that alpha converges towards an expected value when given reasonable parameters
+
+    GIVEN: reasonable starting parameters.
+    WHEN: The metropolis function is run for sufficient steps.
+    THEN: Alpha should change and move toward a stable value.
+    """
+    np.random.seed(42)
+
+    equilibration_steps = 100
+    numsteps = 50
+    numwalkers = 500
+    alpha = 0.8  
+
+    _, alpha_fin, alpha_buffer, _, _, _ = metropolis(equilibration_steps, numsteps, numwalkers, alpha)
+
+    assert abs(alpha_buffer[-1] - alpha_buffer[0]) > 0.01, "Alpha did not change significantly, indicating no optimization."
+    assert np.isfinite(alpha_fin), "Final alpha is not finite."
+
+def test_final_positions_distribution():
+    """
+    Test that the final walker positions are within a reasonable range when given reasonable parameters.
+
+    GIVEN: Standard parameters.
+    WHEN: The metropolis function is run.
+    THEN: The final walker positions should be within a physically reasonable range.
+    """
+    np.random.seed(42)
+
+    equilibration_steps = 100
+    numsteps = 50
+    numwalkers = 500
+    alpha = 0.8  
+
+    position_vec_fin, _, _, _, _, _ = metropolis(equilibration_steps, numsteps, numwalkers, alpha)
+
+    assert np.all(position_vec_fin > 0), "Some walker positions are non-physical (≤ 0)."
+    assert np.max(position_vec_fin) < 15, "Position values are unreasonably large."
+
+
