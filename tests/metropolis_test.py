@@ -146,3 +146,13 @@ def test_invalid_types_input_parameters(invalid_value):
     with pytest.raises(TypeError, match="equilibration_steps, numsteps, and numwalkers must be integers."):
         metropolis(100, 100, invalid_value, alpha) 
 
+def test_equilibration_zero_warning():
+    """
+    Test that metropolis raises a warning when equilibration_steps is set to 0.
+    
+    GIVEN: equilibration_steps = 0.
+    WHEN: metropolis is called with other reasonable parameters.
+    THEN: A UserWarning should be raised.
+    """
+    with pytest.warns(UserWarning, match="equilibration_steps is set to 0. The system will not equilibrate before optimization."):
+        metropolis(0, 10, 10, 1.0) 
