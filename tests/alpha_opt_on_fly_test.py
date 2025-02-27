@@ -1,5 +1,4 @@
 import numpy as np
-from unittest.mock import patch
 from simulation import alpha_opt_on_fly
 
 def test_large_positions():
