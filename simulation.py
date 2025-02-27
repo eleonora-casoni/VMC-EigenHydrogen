@@ -1,4 +1,5 @@
 import numpy as np 
+import warnings
 from tqdm import tqdm
 
 def trial_wavefunction(x, alpha):
@@ -32,12 +33,25 @@ def alpha_opt_on_fly(position_vec, alpha):
 
 
 def metropolis(equilibration_steps, numsteps, numwalkers, alpha):
+
+    if not isinstance(equilibration_steps, int) or not isinstance(numsteps, int) or not isinstance(numwalkers, int):
+        raise TypeError("equilibration_steps, numsteps, and numwalkers must be integers.")
+
+    if numsteps <= 0 or numwalkers <= 0:
+        raise ValueError("numsteps and numwalkers must be positive integers greater than 0.")
+    
+    if equilibration_steps < 0:
+        raise ValueError("equilibration_steps must be a non-negative integer.")
+    
+    if equilibration_steps == 0:
+        warnings.warn("equilibration_steps is set to 0. The system will not equilibrate before optimization.", UserWarning)
+
     position_vec = np.random.uniform(low=2, high=3, size=numwalkers)  
     initial_pos = position_vec
     alpha_buffer = np.empty(numsteps)
     dE_da_buffer = np.empty(numsteps)
     E_buffer = np.empty(numsteps)
-
+    
     for j in tqdm(range(numsteps)):  
         for i in range(equilibration_steps):
             new_position_vec = position_vec + 0.1 * np.random.randn(numwalkers)

@@ -1,5 +1,6 @@
 from unittest.mock import patch
 import numpy as np
+import pytest
 from simulation import metropolis
 
 def test_raise_error_on_invalid_p():
@@ -125,4 +126,23 @@ def test_final_positions_distribution():
     assert np.all(position_vec_fin > 0), "Some walker positions are non-physical (≤ 0)."
     assert np.max(position_vec_fin) < 15, "Position values are unreasonably large."
 
+@pytest.mark.parametrize("invalid_value", ["string", 3.5, [], {}])
+def test_invalid_types_input_parameters(invalid_value):
+    """
+    Test that metropolis raises a TypeError when given non-integer inputs.
+    
+    GIVEN: A non-integer value for numwalkers, numsteps, or equilibration_steps.
+    WHEN: The metropolis function is called with any alpha value.
+    THEN: The function should raise a TypeError.
+    """
+    alpha = 1.0 
+
+    with pytest.raises(TypeError, match="equilibration_steps, numsteps, and numwalkers must be integers."):
+        metropolis(invalid_value, 100, 500, alpha)  
+
+    with pytest.raises(TypeError, match="equilibration_steps, numsteps, and numwalkers must be integers."):
+        metropolis(100, invalid_value, 500, alpha)  
+
+    with pytest.raises(TypeError, match="equilibration_steps, numsteps, and numwalkers must be integers."):
+        metropolis(100, 100, invalid_value, alpha) 
 
