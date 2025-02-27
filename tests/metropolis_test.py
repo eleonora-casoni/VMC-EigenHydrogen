@@ -146,6 +146,35 @@ def test_invalid_types_input_parameters(invalid_value):
     with pytest.raises(TypeError, match="equilibration_steps, numsteps, and numwalkers must be integers."):
         metropolis(100, 100, invalid_value, alpha) 
 
+@pytest.mark.parametrize("invalid_value", [0, -1, -100])
+def test_invalid_numsteps_and_numwalkers(invalid_value):
+    """
+    Test that metropolis raises a ValueError when numsteps or numwalkers is zero or negative.
+
+    GIVEN: A zero or negative value for numsteps or numwalkers.
+    WHEN: The metropolis function is called with any alpha value.
+    THEN: A ValueError should be raised with the correct error message.
+    """
+    alpha = 1.0  
+
+    with pytest.raises(ValueError, match="numsteps and numwalkers must be positive integers greater than 0."):
+        metropolis(100, invalid_value, 500, alpha)  
+    with pytest.raises(ValueError, match="numsteps and numwalkers must be positive integers greater than 0."):
+        metropolis(100, 100, invalid_value, alpha) 
+
+@pytest.mark.parametrize("invalid_value", [-1, -100])
+def test_invalid_equilibration_steps(invalid_value):
+    """
+    Test that metropolis raises a ValueError when equilibration_steps is negative.
+
+    GIVEN: A negative value for equilibration_steps.
+    WHEN: The metropolis function is called.
+    THEN: A ValueError should be raised with the correct error message.
+    """
+    alpha = 1.0  
+    with pytest.raises(ValueError, match="equilibration_steps must be a non-negative integer."):
+        metropolis(invalid_value, 100, 500, alpha)  
+
 def test_equilibration_zero_warning():
     """
     Test that metropolis raises a warning when equilibration_steps is set to 0.
