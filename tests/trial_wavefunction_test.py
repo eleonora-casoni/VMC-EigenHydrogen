@@ -2,7 +2,6 @@ import numpy as np
 import pytest
 from simulation import trial_wavefunction
 
-
 def test_negative_positions():
     """
     Test that trial_wavefunction returns 0 for negative positions.
@@ -149,7 +148,6 @@ def test_large_positive_alpha():
     with pytest.raises(ValueError, match="Too large alpha causes numerical instability."):
         trial_wavefunction(x_values, alpha)
 
-
 def test_small_positive_alpha():
     """
     Test that trial_wavefunction returns values close to 1 for very small positive alpha.
@@ -165,44 +163,16 @@ def test_small_positive_alpha():
     
     assert np.allclose(result, 1, atol=1e-6), "The function did not return values close to 1 for small positive alpha."
 
-def test_alpha_list():
+@pytest.mark.parametrize("invalid_alpha", [ [1.0, 2.0], "invalid_value", 2 + 3j])
+def test_invalid_alpha_types(invalid_alpha):
     """
-    Test that trial_wavefunction raises TypeError when alpha is a list.
+    Test that trial_wavefunction raises TypeError for invalid alpha types.
 
-    GIVEN: Alpha is a list.
-    WHEN: The trial_wavefunction function is called.
-    THEN: A TypeError should be raised.
-    """
-    x_values = np.array([1.0, 2.0, 3.0])
-    alpha = [1.0, 2.0]
-
-    with pytest.raises(TypeError, match="Alpha must be a real number."):
-        trial_wavefunction(x_values, alpha)
-
-def test_alpha_string():
-    """
-    Test that trial_wavefunction raises TypeError when alpha is a string.
-
-    GIVEN: Alpha is a string.
-    WHEN: The trial_wavefunction function is called.
-    THEN: A TypeError should be raised.
+    GIVEN: Invalid type inputs for alpha.
+    WHEN: The trial_wavefunction function is called with reasonable positions.
+    THEN: A TypeError should be raised with the correct message.
     """
     x_values = np.array([1.0, 2.0, 3.0])
-    alpha = "one"
 
     with pytest.raises(TypeError, match="Alpha must be a real number."):
-        trial_wavefunction(x_values, alpha)
-
-def test_alpha_complex():
-    """
-    Test that trial_wavefunction raises TypeError when alpha is a complex number.
-
-    GIVEN: Alpha is a complex number.
-    WHEN: The trial_wavefunction function is called.
-    THEN: A TypeError should be raised.
-    """
-    x_values = np.array([1.0, 2.0, 3.0])
-    alpha = 2 + 3j
-
-    with pytest.raises(TypeError, match="Alpha must be a real number."):
-        trial_wavefunction(x_values, alpha)
+        trial_wavefunction(x_values, invalid_alpha)
