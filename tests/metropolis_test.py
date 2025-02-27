@@ -126,7 +126,7 @@ def test_final_positions_distribution():
     assert np.all(position_vec_fin > 0), "Some walker positions are non-physical (≤ 0)."
     assert np.max(position_vec_fin) < 15, "Position values are unreasonably large."
 
-@pytest.mark.parametrize("invalid_value", ["string", 3.5, [], {}])
+@pytest.mark.parametrize("invalid_value", ["string", 3.5, 2 + 3j, [], {}])
 def test_invalid_types_input_parameters(invalid_value):
     """
     Test that metropolis raises a TypeError when given non-integer inputs.
