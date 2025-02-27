@@ -1,6 +1,6 @@
 import numpy as np
 import pytest
-from simulation import trial_wavefunction
+from vmc_simulation.simulation import trial_wavefunction
 
 def test_negative_positions():
     """

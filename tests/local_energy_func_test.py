@@ -1,5 +1,5 @@
 import numpy as np
-from simulation import local_energy_func
+from vmc_simulation.simulation import local_energy_func
 
 def test_standard_positive_x():
     """

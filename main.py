@@ -1,5 +1,5 @@
 import argparse
-from simulation import metropolis
+from vmc_simulation.simulation import metropolis
 from plot import (
     plot_position,
     plot_alpha_evolution,

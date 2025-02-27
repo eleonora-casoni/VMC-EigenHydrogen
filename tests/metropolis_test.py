@@ -1,7 +1,7 @@
 from unittest.mock import patch
 import numpy as np
 import pytest
-from simulation import metropolis
+from vmc_simulation.simulation import metropolis
 
 def test_raise_error_on_invalid_p():
     """

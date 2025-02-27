@@ -1,5 +1,5 @@
 import numpy as np
-from simulation import dE_dalpha
+from vmc_simulation.simulation import dE_dalpha
 
 def test_output_is_scalar():
     """

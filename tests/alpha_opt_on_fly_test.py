@@ -1,5 +1,5 @@
 import numpy as np
-from simulation import alpha_opt_on_fly
+from vmc_simulation.simulation import alpha_opt_on_fly
 
 def test_large_positions():
     """
