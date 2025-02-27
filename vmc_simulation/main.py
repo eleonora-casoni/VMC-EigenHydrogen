@@ -1,6 +1,6 @@
 import argparse
 from vmc_simulation.simulation import metropolis
-from plot import (
+from vmc_simulation.plot import (
     plot_position,
     plot_alpha_evolution,
     plot_energy_evolution,
