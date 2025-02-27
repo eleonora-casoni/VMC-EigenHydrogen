@@ -67,8 +67,7 @@ def test_small_positive_position_effect():
     THEN: The simulation runs without raising warnings or errors on the final position.
 
     """
-    np.random.seed(42)
-    
+    np.random.seed(42) 
     equilibration_steps = 1
     numsteps = 1
     numwalkers = 3
@@ -135,6 +134,7 @@ def test_invalid_types_input_parameters(invalid_value):
     WHEN: The metropolis function is called with any alpha value.
     THEN: The function should raise a TypeError.
     """
+    np.random.seed(42)
     alpha = 1.0 
 
     with pytest.raises(TypeError, match="equilibration_steps, numsteps, and numwalkers must be integers."):
@@ -155,6 +155,7 @@ def test_invalid_numsteps_and_numwalkers(invalid_value):
     WHEN: The metropolis function is called with any alpha value.
     THEN: A ValueError should be raised with the correct error message.
     """
+    np.random.seed(42)
     alpha = 1.0  
 
     with pytest.raises(ValueError, match="numsteps and numwalkers must be positive integers greater than 0."):
@@ -171,7 +172,9 @@ def test_invalid_equilibration_steps(invalid_value):
     WHEN: The metropolis function is called.
     THEN: A ValueError should be raised with the correct error message.
     """
+    np.random.seed(42)
     alpha = 1.0  
+
     with pytest.raises(ValueError, match="equilibration_steps must be a non-negative integer."):
         metropolis(invalid_value, 100, 500, alpha)  
 
@@ -183,5 +186,7 @@ def test_equilibration_zero_warning():
     WHEN: metropolis is called with other reasonable parameters.
     THEN: A UserWarning should be raised.
     """
+    np.random.seed(42)
+
     with pytest.warns(UserWarning, match="equilibration_steps is set to 0. The system will not equilibrate before optimization."):
         metropolis(0, 10, 10, 1.0) 
