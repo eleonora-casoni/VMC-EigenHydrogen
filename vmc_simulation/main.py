@@ -15,7 +15,7 @@ def main():
     parser.add_argument("--numwalkers", type=int, default=4000, help="Number of Monte Carlo walkers (default: 5000)")
     parser.add_argument("--numsteps", type=int, default=120, help="Number of Monte Carlo steps (default: 120)")
     parser.add_argument("--equilibration_steps", type=int, default=3000, help="Equilibration steps (default: 3000)")
-    parser.add_argument("--alpha", type=float, default=0.8, help="Initial variational parameter alpha (default: 0.8)")
+    parser.add_argument("--alpha", type=float, default=1.2, help="Initial variational parameter alpha (default: 0.8)")
 
     # Output options
     parser.add_argument("--output-dir", type=str, default="results", help="Directory to save outputs (default: ./results)")
