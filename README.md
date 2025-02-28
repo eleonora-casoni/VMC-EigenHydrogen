@@ -78,7 +78,6 @@ VMC-EigenHydrogen/
 │   ├── main.py           # Runs the full VMC simulation  
 │   ├── simulation.py     # Core simulation functions  
 │   ├── plot.py           # Plotting & result-saving functions 
-│
 ├── 📂tests/              # Unit tests for all components  
 ├── 📂results/            # Default folder for generated plots & CSVs  
 ├── requirements.txt      # Required dependencies  
