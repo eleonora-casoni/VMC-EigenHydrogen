@@ -72,18 +72,20 @@ All three parameters (**equilibration_steps**, **numsteps**, **numwalkers**) aff
 ⚠️  **Recommendation:** Carefully choose reasonable parameter values to strike a balance between simulation speed and the desired level of accuracy.
 
 ## Project structure
+
 VMC-EigenHydrogen/  
 ├── 📂vmc_simulation/  
 │   ├── __init__.py  
 │   ├── main.py           # Runs the full VMC simulation  
 │   ├── simulation.py     # Core simulation functions  
-│   ├── plot.py           # Plotting & result-saving functions 
+│   ├── plot.py           # Plotting & result-saving functions  
 ├── 📂tests/              # Unit tests for all components  
 ├── 📂results/            # Default folder for generated plots & CSVs  
 ├── requirements.txt      # Required dependencies  
 ├── README.md             # Documentation  
 ├── .gitignore            # Git ignore file  
 ├── LICENSE  
+
 
 ## Testing
 
