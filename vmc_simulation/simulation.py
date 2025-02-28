@@ -1,15 +1,16 @@
-import numpy as np 
+import numpy as np
 import warnings
 from tqdm import tqdm
+
 
 def trial_wavefunction(x, alpha):
     """
     Compute the trial wavefunction for a given set of positions and a parameter alpha.
 
-    This function calculates the trial wavefunction for a system with spherical symmetry, 
-    specifically modeling the radial part of the hydrogen atom wavefunction. Since the 
-    wavefunction is defined only for positive radial distances, negative positions are 
-    assigned a value of zero to maintain physical consistency. A Gaussian form is used 
+    This function calculates the trial wavefunction for a system with spherical symmetry,
+    specifically modeling the radial part of the hydrogen atom wavefunction. Since the
+    wavefunction is defined only for positive radial distances, negative positions are
+    assigned a value of zero to maintain physical consistency. A Gaussian form is used
     for the wavefunction.
 
     Parameters
@@ -18,31 +19,32 @@ def trial_wavefunction(x, alpha):
         Array of position values (one for each walker). Must be non-negative.
     alpha : float
         Variational parameter controlling the wavefunction's decay. Must be a real number.
-    
+
     Returns
     -------
     numpy.ndarray
         Array of wavefunction values corresponding to the input positions.
-    
+
     Raises
     ------
     TypeError
         If `alpha` is not a real number (integer or float).
     ValueError
-        If `alpha` is less than -1000 or greater than 200, as such values 
+        If `alpha` is less than -1000 or greater than 200, as such values
         lead to numerical instability.
     """
-    if not isinstance(alpha, (int, float)):  
+    if not isinstance(alpha, (int, float)):
         raise TypeError("Alpha must be a real number.")
-    
-    if alpha < -1000:  
-     raise ValueError("Too large negative alpha causes numerical instability.")
-    
-    if alpha > 200:  
+
+    if alpha < -1000:
+        raise ValueError("Too large negative alpha causes numerical instability.")
+
+    if alpha > 200:
         raise ValueError("Too large alpha causes numerical instability.")
 
     result = np.where(x > 0, np.exp(-alpha * x), 0)
-    return result 
+    return result
+
 
 def local_energy_func(x, alpha):
     """
@@ -57,23 +59,24 @@ def local_energy_func(x, alpha):
         Array of position values (one for each walker). Must be non-negative.
     alpha : float
         Variational parameter affecting the energy calculation. Must be a real number.
-    
+
     Returns
     -------
     numpy.ndarray
         Array of local energy values corresponding to the input positions.
 
     """
-    return -1/x - (alpha**2)/2 + alpha/x
+    return -1 / x - (alpha**2) / 2 + alpha / x
+
 
 def dE_dalpha(x, alpha):
     """
     Compute the derivative of the energy with respect to alpha for variational optimization.
 
-    This function calculates the gradient of the energy with respect to the variational 
-    parameter alpha, which is used in the stochastic gradient descent method to optimize 
-    alpha 'on the fly'. The derivative is computed as the difference between the mean of 
-    the product and the product of the means, a technique that reduces noise and stabilizes 
+    This function calculates the gradient of the energy with respect to the variational
+    parameter alpha, which is used in the stochastic gradient descent method to optimize
+    alpha 'on the fly'. The derivative is computed as the difference between the mean of
+    the product and the product of the means, a technique that reduces noise and stabilizes
     the optimization process.
 
     Parameters
@@ -92,21 +95,22 @@ def dE_dalpha(x, alpha):
     -----
     - The calculation follows the relation:
       dE/dα = 2 * (⟨E_L * d(log Ψ)/dα⟩ - ⟨E_L⟩ * ⟨d(log Ψ)/dα⟩)
-    - The term `ln_wf = -x` represents the derivative of the logarithm of the trial wavefunction Ψ 
-      with respect to α:  
-      d(log Ψ)/dα = -x  
+    - The term `ln_wf = -x` represents the derivative of the logarithm of the trial wavefunction Ψ
+      with respect to α:
+      d(log Ψ)/dα = -x
     - Using this formulation helps reduce noise and improves numerical stability in the optimization process.
     """
     El = local_energy_func(x, alpha)
-    ln_wf = -x 
+    ln_wf = -x
     return 2 * (np.mean(El * ln_wf) - np.mean(El) * np.mean(ln_wf))
+
 
 def alpha_opt_on_fly(position_vec, alpha):
     """
     Perform an on-the-fly update of the variational parameter alpha using gradient descent.
 
-    This function updates alpha using the gradient of the local energy with respect to alpha, 
-    computed via `dE_dalpha`. It applies a small step in the negative gradient direction 
+    This function updates alpha using the gradient of the local energy with respect to alpha,
+    computed via `dE_dalpha`. It applies a small step in the negative gradient direction
     to iteratively reach the optimal alpha value that minimizes the energy.
 
     Parameters
@@ -124,25 +128,26 @@ def alpha_opt_on_fly(position_vec, alpha):
     Notes
     -----
     - The function updates alpha using the formula:
-      α_new = α - γ * dE/dα  
+      α_new = α - γ * dE/dα
       where γ (learning rate) is set to 0.01.
     - The learning rate γ is chosen to balance convergence speed and stability:
       - If γ is too small, convergence will be too slow.
       - If γ is too large, the optimization may fail to converge properly.
-    - This method ensures that alpha dynamically adjusts during the Metropolis simulation, 
+    - This method ensures that alpha dynamically adjusts during the Metropolis simulation,
       improving efficiency in finding the optimal wavefunction parameters.
     """
-    
+
     dE_da = dE_dalpha(position_vec, alpha)
-    alpha = alpha - 0.01 * dE_da  
+    alpha = alpha - 0.01 * dE_da
     return alpha, dE_da
+
 
 def metropolis(equilibration_steps, numsteps, numwalkers, alpha):
     """
     Perform Metropolis-Hastings sampling to optimize walker positions and the variational parameter alpha.
 
-    This function implements the Metropolis-Hastings algorithm to generate walker positions that 
-    follow the probability distribution defined by the trial wavefunction. Additionally, it 
+    This function implements the Metropolis-Hastings algorithm to generate walker positions that
+    follow the probability distribution defined by the trial wavefunction. Additionally, it
     optimizes alpha on-the-fly using a gradient descent approach.
 
     Parameters
@@ -196,32 +201,45 @@ def metropolis(equilibration_steps, numsteps, numwalkers, alpha):
         - `alpha ≈ 0.8`: Initial guess, typically converging toward the optimal value (≈0.5 for hydrogen atom).
     """
 
-    if not isinstance(equilibration_steps, int) or not isinstance(numsteps, int) or not isinstance(numwalkers, int):
-        raise TypeError("equilibration_steps, numsteps, and numwalkers must be integers.")
+    if (
+        not isinstance(equilibration_steps, int)
+        or not isinstance(numsteps, int)
+        or not isinstance(numwalkers, int)
+    ):
+        raise TypeError(
+            "equilibration_steps, numsteps, and numwalkers must be integers."
+        )
 
     if numsteps <= 0 or numwalkers <= 0:
-        raise ValueError("numsteps and numwalkers must be positive integers greater than 0.")
-    
+        raise ValueError(
+            "numsteps and numwalkers must be positive integers greater than 0."
+        )
+
     if equilibration_steps < 0:
         raise ValueError("equilibration_steps must be a non-negative integer.")
-    
-    if equilibration_steps == 0:
-        warnings.warn("equilibration_steps is set to 0. The system will not equilibrate before optimization.", UserWarning)
 
-    position_vec = np.random.uniform(low=2, high=3, size=numwalkers)  
+    if equilibration_steps == 0:
+        warnings.warn(
+            "equilibration_steps is set to 0. The system will not equilibrate before optimization.",
+            UserWarning,
+        )
+
+    position_vec = np.random.uniform(low=2, high=3, size=numwalkers)
     initial_pos = position_vec
     alpha_buffer = np.empty(numsteps)
     dE_da_buffer = np.empty(numsteps)
     E_buffer = np.empty(numsteps)
-    
-    for j in tqdm(range(numsteps)):  
+
+    for j in tqdm(range(numsteps)):
         for i in range(equilibration_steps):
             new_position_vec = position_vec + 0.1 * np.random.randn(numwalkers)
             denominator = trial_wavefunction(position_vec, alpha)
             numerator = trial_wavefunction(new_position_vec, alpha)
             invalid_indices = denominator == 0
-            if np.any(invalid_indices): #is the print redundant?
-                print("Error: Division by zero detected in denominator during p calculation.")
+            if np.any(invalid_indices):  
+                print(
+                    "Error: Division by zero detected in denominator during p calculation."
+                )
                 raise ValueError("Division by zero detected in p calculation.")
             p = numerator / denominator
             rand_unif_array = np.random.uniform(size=len(p))
