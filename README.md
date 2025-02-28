@@ -77,7 +77,8 @@ VMC-EigenHydrogen/
 │   ├── __init__.py  
 │   ├── main.py           # Runs the full VMC simulation  
 │   ├── simulation.py     # Core simulation functions  
-│   ├── plot.py           # Plotting & result-saving functions  
+│   ├── plot.py           # Plotting & result-saving functions 
+│
 ├── 📂tests/              # Unit tests for all components  
 ├── 📂results/            # Default folder for generated plots & CSVs  
 ├── requirements.txt      # Required dependencies  
@@ -117,7 +118,7 @@ Plots are also generated:
 This project is licensed under the **MIT License**.
 
 ## Contributions
-Contributions are welcome! Feel free to open an **issue** or submit a **pull request**, but remember to write ***tests**!
+Contributions are welcome! Feel free to open an **issue** or submit a **pull request**, but remember to write **tests**!
 
 **Author**
 ----------
