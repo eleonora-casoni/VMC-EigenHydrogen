@@ -18,11 +18,11 @@ This project implements a **Variational Monte Carlo (VMC) approach** to estimate
 📖**[Computational Physics (2nd Edition) - Jos Thijssen](https://www.cambridge.org/)** (Cambridge University Press)
 
 ## Features
-✅ Implements **Metropolis-Hastings sampling**  
-✅ **Optimizes** the variational parameter using **gradient descent**  
-✅ **Saves results** to CSV files and plots
-✅ Provides **CLI** for customizable simulations  
-✅ Includes **unit tests** with **high test coverage**  
+- ✅ Implements **Metropolis-Hastings sampling**  
+- ✅ **Optimizes** the variational parameter using **gradient descent**  
+- ✅ **Saves results** to CSV files and plots
+- ✅ Provides **CLI** for customizable simulations  
+- ✅ Includes **unit tests** with **high test coverage**  
 
 ## Installation
 Ensure you have **Python 3.8+** installed. Then, clone the repository and install dependencies:
