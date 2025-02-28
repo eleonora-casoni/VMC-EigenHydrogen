@@ -7,7 +7,6 @@ from vmc_simulation.plot import (
     save_results_to_csv,
 )
 
-
 def main():
     """Parse command-line arguments and run the simulation."""
     parser = argparse.ArgumentParser(description="Run a Metropolis simulation for hydrogen atom ground state.")
@@ -39,12 +38,10 @@ def main():
     print(f"Mean local energy: {E_buffer.mean():.3f}")
     print(f"variance of mean local energy:{ E_buffer.var():.3f}")
 
-    
     save_results_to_csv(position_vec_fin, alpha_buffer, E_buffer, args.output_dir)
     plot_position(position_vec_fin, save_path=f"{args.output_dir}/histogram_positions.png")
     plot_alpha_evolution(alpha_buffer, save_path=f"{args.output_dir}/alpha_evolution.png")
     plot_energy_evolution(E_buffer, save_path=f"{args.output_dir}/energy_evolution.png")
   
-
 if __name__ == "__main__":
     main()
