@@ -38,11 +38,10 @@ You can run the simulation using the default parameters or specify custom parame
 To run the simulation with default parameters, simply execute:
 
 ```bash
-python -m vmc_simulation.main
-By default, results (plots and CSV files) will be saved in the results folder.
+python -m vmc_simulation.main 
 ```
 **Run with Custom Parameters**
-To specify custom values for the simulation parameters:
+To specify custom values for the simulation parameters run:
 
 ```bash
 python -m vmc_simulation.main --equilibration_steps 2000 --numsteps 100 --numwalkers 3000 --alpha 1 --output my_results
