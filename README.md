@@ -15,8 +15,7 @@ Variational Monte Carlo method to estimate ground state energy for the Hydrogen 
 
 ## Overview
 This project implements a **Variational Monte Carlo (VMC) approach** to estimate the ground-state energy of the **hydrogen atom**. The **Metropolis-Hastings algorithm** is used to sample the wavefunction, while **on-the-fly parameter optimization** is performed to refine the variational parameter \( alpha \). If you're new to Variational Monte Carlo (VMC) and want to understand the theory behind this method, check out:  
-📖 **Computational Physics (Second Edition)**  
-by **Jos Thijssen** – Cambridge University Press.
+📖**[Computational Physics (2nd Edition) - Jos Thijssen](https://www.cambridge.org/)** (Cambridge University Press)
 
 ## Features
 ✅ Implements **Metropolis-Hastings sampling**  
@@ -124,4 +123,5 @@ Contributions are welcome! Feel free to open an **issue** or submit a **pull req
 ----------
 
 **Eleonora Casoni**  
-👩‍💻 [GitHub Profile](https://github.com/eleonora-casoni)
+👩‍💻 [GitHub Profile](https://github.com/eleonora-casoni) 🐱
+
