@@ -236,10 +236,7 @@ def metropolis(equilibration_steps, numsteps, numwalkers, alpha):
             denominator = trial_wavefunction(position_vec, alpha)
             numerator = trial_wavefunction(new_position_vec, alpha)
             invalid_indices = denominator == 0
-            if np.any(invalid_indices):  
-                print(
-                    "Error: Division by zero detected in denominator during p calculation."
-                )
+            if np.any(invalid_indices):
                 raise ValueError("Division by zero detected in p calculation.")
             p = numerator / denominator
             rand_unif_array = np.random.uniform(size=len(p))
