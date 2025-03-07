@@ -29,6 +29,34 @@ def test_raise_error_on_invalid_p():
         with pytest.raises(ValueError, match="Division by zero detected in p calculation."):
             metropolis(equilibration_steps, numsteps, numwalkers, alpha)
 
+def invalid_p_negative_position_not_accepted():
+    """
+    Test that metropolis does not accept new_position_vec when it contains negative values.
+
+    GIVEN: A new_position_vec containing negative values.
+    WHEN: The metropolis function is called.
+    THEN: the position should remain unchanged.
+    """
+    equilibration_steps = 1
+    numsteps = 1
+    numwalkers = 3
+    alpha = 1.0
+
+    with patch("numpy.random.uniform") as mock_uniform, patch("numpy.random.randn") as mock_randn:
+
+        def mock_random_uniform(*args, **kwargs):
+            if kwargs.get("size") == numwalkers:
+                return np.array([2.5, 3.0, 2.3])  
+            return np.array([0.5, 0.5, 0.5])  
+        
+        mock_randn.return_value = np.array([-3.0, -3.5, -4.0]) 
+        mock_uniform.side_effect = mock_random_uniform
+        
+        position_vec_fin, _, _, _, _, initial_pos = metropolis(
+            equilibration_steps, numsteps, numwalkers, alpha
+        )
+        assert np.array_equal(position_vec_fin, initial_pos), "Metropolis should reject invalid moves."
+        
 def test_small_positive_position_effect():
     """
     Test that metropolis accepts small positive position values.
