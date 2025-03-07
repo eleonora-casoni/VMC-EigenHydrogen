@@ -29,7 +29,7 @@ def test_raise_error_on_invalid_p():
         with pytest.raises(ValueError, match="Division by zero detected in p calculation."):
             metropolis(equilibration_steps, numsteps, numwalkers, alpha)
 
-def invalid_p_negative_position_not_accepted():
+def invalid_negative_position_not_accepted():
     """
     Test that metropolis does not accept new_position_vec when it contains negative values.
 
