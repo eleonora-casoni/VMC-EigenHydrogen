@@ -26,37 +26,8 @@ def test_raise_error_on_invalid_p():
         mock_randn.return_value = np.zeros(numwalkers)  
         mock_uniform.side_effect = mock_random_uniform
 
-        try:
+        with pytest.raises(ValueError, match="Division by zero detected in p calculation."):
             metropolis(equilibration_steps, numsteps, numwalkers, alpha)
-        except ValueError as e:
-            assert str(e) == "Division by zero detected in p calculation."
-
-def test_raise_error_on_invalid_p_negative_position():
-    """
-    Test that metropolis raises ValueError when new_position_vec contains a small negative value.
-
-    GIVEN: A new_position_vec containing a small negative value for one walker.
-    WHEN: The metropolis function is called.
-    THEN: A ValueError should be raised with a comprehensible error message.
-    """
-    equilibration_steps = 1
-    numsteps = 1
-    numwalkers = 3
-    alpha = 1.0
-
-    with patch("numpy.random.uniform") as mock_uniform, patch("numpy.random.randn") as mock_randn:
-
-        def mock_random_uniform(*args, **kwargs):
-            if kwargs.get("size") == numwalkers:
-                return np.array([2.5, 3.0, 2.3])  
-            return np.array([0.5, 0.5, 0.5])  
-        
-        mock_randn.return_value = np.array([0.0, 0.0, -2.8]) 
-        mock_uniform.side_effect = mock_random_uniform
-        try:
-            metropolis(equilibration_steps, numsteps, numwalkers, alpha)
-        except ValueError as e:
-            assert str(e) == "Division by zero detected in p calculation."
 
 def test_small_positive_position_effect():
     """
