@@ -1,5 +1,25 @@
 import numpy as np
 from vmc_simulation.simulation import alpha_opt_on_fly
+from vmc_simulation.simulation import dE_dalpha
+
+def test_alpha_update_typical():
+    """
+    Test that alpha_opt_on_fly updates alpha correctly with typical values.
+
+    GIVEN: A standard position vector and alpha.
+    WHEN: The function is called.
+    THEN: Alpha should update correctly.
+    """
+    position_vec = np.array([1.0, 2.0, 3.0])
+    alpha = 1.0
+    
+    dE_da = dE_dalpha(position_vec, alpha)  
+    expected_alpha = alpha - 0.01 * dE_da  
+    new_alpha, computed_dE_da = alpha_opt_on_fly(position_vec, alpha)
+
+    assert np.isfinite(new_alpha), "Alpha should be a finite number."
+    assert np.isfinite(computed_dE_da), "dE/da should be a finite number."
+    assert np.isclose(new_alpha, expected_alpha, atol=1e-10), f"Expected {expected_alpha}, got {new_alpha}"
 
 def test_large_positions():
     """
@@ -11,10 +31,14 @@ def test_large_positions():
     """
     position_vec = np.array([1e6, 2e6, 3e6])  
     alpha = 1.0  
+
+    dE_da = dE_dalpha(position_vec, alpha)
+    expected_alpha = alpha - 0.01 * dE_da
     new_alpha, dE_da = alpha_opt_on_fly(position_vec, alpha)
 
     assert np.isfinite(new_alpha), "Updated alpha should be a finite number."
     assert np.isfinite(dE_da), "dE/da should be a finite number."
+    assert np.isclose(new_alpha, expected_alpha, atol=1e-10), f"Expected {expected_alpha}, got {new_alpha}"
 
 def test_small_alpha():
     """
@@ -26,10 +50,14 @@ def test_small_alpha():
     """
     position_vec = np.array([1.0, 2.0, 3.0])
     alpha = 1e-10  
+
+    dE_da = dE_dalpha(position_vec, alpha)
+    expected_alpha = alpha - 0.01 * dE_da  
     new_alpha, dE_da = alpha_opt_on_fly(position_vec, alpha)
 
     assert np.isfinite(new_alpha), "Updated alpha should be a finite number."
     assert np.isfinite(dE_da), "dE/da should be a finite number."
+    assert np.isclose(new_alpha, expected_alpha, atol=1e-10), f"Expected {expected_alpha}, got {new_alpha}"
 
 def test_large_alpha():
     """
@@ -41,10 +69,13 @@ def test_large_alpha():
     """
     position_vec = np.array([1.0, 2.0, 3.0])
     alpha = 1e6  
+    dE_da = dE_dalpha(position_vec, alpha)
+    expected_alpha = alpha - 0.01 * dE_da  
     new_alpha, dE_da = alpha_opt_on_fly(position_vec, alpha)
 
     assert np.isfinite(new_alpha), "Updated alpha should be a finite number."
     assert np.isfinite(dE_da), "dE/da should be a finite number."
+    assert np.isclose(new_alpha, expected_alpha, atol=1e-10), f"Expected {expected_alpha}, got {new_alpha}"
 
 def test_alpha_update_behavior():
     """
@@ -64,4 +95,3 @@ def test_alpha_update_behavior():
         assert np.isfinite(new_alpha), "Updated alpha should be a finite number."
         assert np.isfinite(dE_da), "dE/da should be a finite number."
         assert new_alpha != alpha, "Alpha should update when dE_da is nonzero."
-
