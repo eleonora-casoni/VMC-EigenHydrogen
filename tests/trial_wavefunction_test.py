@@ -12,7 +12,7 @@ def test_negative_positions():
 
     """
     x_negative = np.array([-1.0, -5.0, -0.001, -100.0])
-    alpha = 1.0  # Arbitrary positive alpha value
+    alpha = 1.0  
     expected_output = np.zeros_like(x_negative)
     result = trial_wavefunction(x_negative, alpha)
 
