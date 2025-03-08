@@ -1,9 +1,9 @@
 import numpy as np
 from vmc_simulation.simulation import local_energy_func
 
-def test_standard_positive_x():
+def test_standard_positive_values():
     """
-    Test that local_energy_func returns finite values for standard positive x.
+    Test that local_energy_func returns finite values for standard positive inputs.
 
     GIVEN: A set of standard positive x values.
     WHEN: The function is called with any alpha value.
@@ -11,9 +11,12 @@ def test_standard_positive_x():
     """
     x_values = np.array([1.0, 2.0, 3.0, 0.5])
     alpha = 1.0  
+
+    expected_values = -1 / x_values - (alpha**2) / 2 + alpha / x_values
     result = local_energy_func(x_values, alpha)
 
     assert np.all(np.isfinite(result)), "The function returned non-finite values for standard positive x."
+    assert np.allclose(result, expected_values, atol=1e-10), f"Expected {expected_values}, got {result}"
 
 def test_small_positive_x():
     """
@@ -25,9 +28,12 @@ def test_small_positive_x():
     """
     x_values = np.array([1e-10, 1e-8, 1e-6])  
     alpha = 1.0  
+   
+    expected_values = -1 / x_values - (alpha**2) / 2 + alpha / x_values
     result = local_energy_func(x_values, alpha)
 
     assert np.all(np.isfinite(result)), "The function returned non-finite values for small positive x."
+    assert np.allclose(result, expected_values, atol=1e-10), f"Expected {expected_values}, got {result}"
 
 def test_large_positive_x():
     """
@@ -39,11 +45,12 @@ def test_large_positive_x():
     """
     x_values = np.array([1e5, 1e10])  
     alpha = 2.0  
-    expected_values = - (alpha**2) / 2  
 
+    expected_values = - (alpha**2) / 2  
     result = local_energy_func(x_values, alpha)
-    
-    assert np.allclose(result, expected_values, atol=1e-5), "The function does not behave as expected for large x."
+
+    assert np.all(np.isfinite(result)), "The function returned non-finite values for large positive x."
+    assert np.allclose(result, expected_values, atol=1e-5), f"Expected {expected_values}, got {result}"
 
 def test_output_array_length():
     """
@@ -69,9 +76,12 @@ def test_large_positive_alpha():
     """
     x_values = np.array([1.0, 5.0])
     alpha = 100.0  
+
+    expected_values = -1 / x_values - (alpha**2) / 2 + alpha / x_values
     result = local_energy_func(x_values, alpha)
 
     assert np.all(np.isfinite(result)), "The function returned non-finite values for large alpha."
+    assert np.allclose(result, expected_values, atol=1e-10), f"Expected {expected_values}, got {result}"
 
 def test_local_energy_negative_alpha():
     """
@@ -84,7 +94,9 @@ def test_local_energy_negative_alpha():
     x_values = np.array([1.0, 5.0])
     alpha = -1.0 
 
+    expected_values = -1 / x_values - (alpha**2) / 2 + alpha / x_values
     result = local_energy_func(x_values, alpha)
 
     assert np.all(np.isfinite(result)), "Local energy function returned NaN or Inf values for negative alpha."
+    assert np.allclose(result, expected_values, atol=1e-10), f"Expected {expected_values}, got {result}"
 
