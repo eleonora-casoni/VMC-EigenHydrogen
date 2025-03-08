@@ -105,7 +105,7 @@ def dE_dalpha(x, alpha):
     return 2 * (np.mean(El * ln_wf) - np.mean(El) * np.mean(ln_wf))
 
 
-def alpha_opt_on_fly(position_vec, alpha):
+def alpha_opt_on_fly(position_vec, alpha, learning_rate):
     """
     Perform an on-the-fly update of the variational parameter alpha using gradient descent.
 
@@ -119,6 +119,8 @@ def alpha_opt_on_fly(position_vec, alpha):
         Array of walker positions after equilibration.
     alpha : float
         Current value of the variational parameter alpha.
+    learning_rate : float
+        Step size for updating alpha.
 
     Returns
     -------
@@ -129,8 +131,7 @@ def alpha_opt_on_fly(position_vec, alpha):
     -----
     - The function updates alpha using the formula:
       α_new = α - γ * dE/dα
-      where γ (learning rate) is set to 0.01.
-    - The learning rate γ is chosen to balance convergence speed and stability:
+    - The learning rate γ controls the step size in optimization:
       - If γ is too small, convergence will be too slow.
       - If γ is too large, the optimization may fail to converge properly.
     - This method ensures that alpha dynamically adjusts during the Metropolis simulation,
@@ -138,11 +139,11 @@ def alpha_opt_on_fly(position_vec, alpha):
     """
 
     dE_da = dE_dalpha(position_vec, alpha)
-    alpha = alpha - 0.01 * dE_da
+    alpha = alpha - learning_rate * dE_da
     return alpha, dE_da
 
 
-def metropolis(equilibration_steps, numsteps, numwalkers, alpha):
+def metropolis(equilibration_steps, numsteps, numwalkers, alpha, learning_rate):
     """
     Perform Metropolis-Hastings sampling to optimize walker positions and the variational parameter alpha.
 
@@ -160,6 +161,8 @@ def metropolis(equilibration_steps, numsteps, numwalkers, alpha):
         Number of walkers used to explore phase space. Must be a positive integer.
     alpha : float
         Initial value of the variational parameter alpha. It is updated iteratively to minimize energy.
+    learning_rate : float
+        Step size for updating alpha.
 
     Returns
     -------
@@ -199,6 +202,7 @@ def metropolis(equilibration_steps, numsteps, numwalkers, alpha):
         - `numsteps = 120`: Steps performed after equilibration.
         - `equilibration_steps = 3000`: Ensures the system stabilizes before collecting data.
         - `alpha ≈ 0.8`: Initial guess, typically converging toward the optimal value (≈0.5 for hydrogen atom).
+        - `learning_rate = 0.01`: Controls the step size in alpha optimization.
     """
 
     if (
@@ -242,7 +246,7 @@ def metropolis(equilibration_steps, numsteps, numwalkers, alpha):
             rand_unif_array = np.random.uniform(size=len(p))
             position_vec = np.where(p > rand_unif_array, new_position_vec, position_vec)
 
-        alpha, dE_da = alpha_opt_on_fly(position_vec, alpha)
+        alpha, dE_da = alpha_opt_on_fly(position_vec, alpha, learning_rate)
         alpha_buffer[j] = alpha
         dE_da_buffer[j] = dE_da
         E_buffer[j] = np.mean(local_energy_func(position_vec, alpha))

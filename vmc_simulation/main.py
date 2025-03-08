@@ -39,6 +39,11 @@ def main():
         default=1.2,
         help="Initial variational parameter alpha (default: 0.8)",
     )
+    parser.add_argument(
+        "--learning-rate", 
+        type=float, 
+        default=0.01, 
+        help="Learning rate for alpha optimization (default: 0.01)")
 
     # Output options
     parser.add_argument(
@@ -51,7 +56,7 @@ def main():
     args = parser.parse_args()
 
     position_vec_fin, alpha_fin, alpha_buffer, E_buffer, dE_da_buffer, initial_pos = (
-        metropolis(args.equilibration_steps, args.numsteps, args.numwalkers, args.alpha)
+        metropolis(args.equilibration_steps, args.numsteps, args.numwalkers, args.alpha, args.learning_rate)
     )
 
     # expected values
