@@ -1,5 +1,6 @@
 import numpy as np
 from vmc_simulation.simulation import dE_dalpha
+from vmc_simulation.simulation import local_energy_func
 
 def test_output_is_scalar():
     """
@@ -19,15 +20,20 @@ def test_typical_values():
     """
     Test dE_dalpha with typical input values.
 
-    GIVEN: An array of valid positions x and a valid alpha.
+    GIVEN: A standard array of x positions and a reasonable alpha.
     WHEN: The function is called.
-    THEN: The output should be a finite, reasonable value.
+    THEN: The returned value should be a finite, reasonable value.
     """
-    x_values = np.linspace(0.5, 3, 100)
+    x_values = np.array([1.0, 2.0, 3.0])
     alpha = 1.0
+
+    El = local_energy_func(x_values, alpha)
+    ln_wf = -x_values
+    expected_value = 2 * (np.mean(El * ln_wf) - np.mean(El) * np.mean(ln_wf))
     result = dE_dalpha(x_values, alpha)
 
     assert np.isfinite(result), "dE_dalpha should return a finite number for typical values."
+    assert np.isclose(result, expected_value, atol=1e-10), f"Expected {expected_value}, got {result}"
 
 def test_small_positive_alpha():
     """
