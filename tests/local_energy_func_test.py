@@ -100,3 +100,19 @@ def test_local_energy_negative_alpha():
     assert np.all(np.isfinite(result)), "Local energy function returned NaN or Inf values for negative alpha."
     assert np.allclose(result, expected_values, atol=1e-10), f"Expected {expected_values}, got {result}"
 
+def test_alpha_zero():
+    """
+    Test that local_energy_func behaves correctly when alpha is zero.
+
+    GIVEN: A set of positive x values.
+    WHEN: The function is called with alpha = 0.
+    THEN: The function should return -1/x.
+    """
+    x_values = np.array([1.0, 2.0, 3.0, 0.5])
+    alpha = 0.0  
+
+    expected_values = -1 / x_values 
+    result = local_energy_func(x_values, alpha)
+
+    assert np.allclose(result, expected_values, atol=1e-10), f"Expected {expected_values}, got {result}"
+
