@@ -116,3 +116,20 @@ def test_alpha_zero():
 
     assert np.allclose(result, expected_values, atol=1e-10), f"Expected {expected_values}, got {result}"
 
+def test_negative_x_values():
+    """
+    Test that local_energy_func produces correct finite values for negative x.
+    
+    GIVEN: A set of negative x values.
+    WHEN: The function is called with a standard alpha.
+    THEN: It should return finite values that match expected theoretical results.
+    """
+    x_values = np.array([-1.0, -2.0, -3.0])
+    alpha = 1.0  
+    
+    expected_values = -1 / x_values - (alpha**2) / 2 + alpha / x_values
+    
+    result = local_energy_func(x_values, alpha)
+
+    assert np.all(np.isfinite(result)), "The function returned non-finite values for negative x."
+    assert np.allclose(result, expected_values, atol=1e-10), "The function output does not match expected values for negative x."
