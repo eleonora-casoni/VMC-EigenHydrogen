@@ -45,9 +45,14 @@ def test_small_positive_alpha():
     """
     x_values = np.linspace(0.5, 3, 100)
     alpha = 1e-10
+
+    El = local_energy_func(x_values, alpha)
+    ln_wf = -x_values
+    expected_value = 2 * (np.mean(El * ln_wf) - np.mean(El) * np.mean(ln_wf))
     result = dE_dalpha(x_values, alpha)
 
     assert np.isfinite(result), "dE_dalpha should return a finite number for small positive alpha."
+    assert np.isclose(result, expected_value, atol=1e-10), f"Expected {expected_value}, got {result}"
 
 def test_large_positive_alpha():
     """
@@ -61,7 +66,12 @@ def test_large_positive_alpha():
     alpha = 1000
     result = dE_dalpha(x_values, alpha)
 
+    El = local_energy_func(x_values, alpha)
+    ln_wf = -x_values
+    expected_value = 2 * (np.mean(El * ln_wf) - np.mean(El) * np.mean(ln_wf))
+
     assert np.isfinite(result), "dE_dalpha should not overflow for large alpha."
+    assert np.isclose(result, expected_value, atol=1e-10), f"Expected {expected_value}, got {result}"
 
 def test_small_negative_alpha():
     """
@@ -73,9 +83,14 @@ def test_small_negative_alpha():
     """
     x_values = np.linspace(2, 3, 100)
     alpha = -1e-10
+
+    El = local_energy_func(x_values, alpha)
+    ln_wf = -x_values
+    expected_value = 2 * (np.mean(El * ln_wf) - np.mean(El) * np.mean(ln_wf))
     result = dE_dalpha(x_values, alpha)
 
     assert np.isfinite(result), "dE_dalpha should return a finite number for small negative alpha."
+    assert np.isclose(result, expected_value, atol=1e-10), f"Expected {expected_value}, got {result}"
 
 def test_small_positive_x():
     """
@@ -87,9 +102,14 @@ def test_small_positive_x():
     """
     x_values = np.array([1e-10, 1e-8, 1e-5])  
     alpha = 1.0
+
+    El = local_energy_func(x_values, alpha)
+    ln_wf = -x_values
+    expected_value = 2 * (np.mean(El * ln_wf) - np.mean(El) * np.mean(ln_wf))
     result = dE_dalpha(x_values, alpha)
 
     assert np.isfinite(result), "dE_dalpha should not result in NaN or Inf for small x values."
+    assert np.isclose(result, expected_value, atol=1e-10), f"Expected {expected_value}, got {result}"
 
 def test_large_x_values():
     """
@@ -101,9 +121,14 @@ def test_large_x_values():
     """
     x_values = np.array([1e6, 1e8, 1e10])
     alpha = 1.0
+
+    El = local_energy_func(x_values, alpha)
+    ln_wf = -x_values
+    expected_value = 2 * (np.mean(El * ln_wf) - np.mean(El) * np.mean(ln_wf))
     result = dE_dalpha(x_values, alpha)
 
     assert np.isfinite(result), "dE_dalpha should not overflow for large x values."
+    assert np.isclose(result, expected_value, atol=1e-10), f"Expected {expected_value}, got {result}"
 
 
 
