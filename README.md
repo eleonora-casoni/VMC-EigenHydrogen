@@ -55,7 +55,7 @@ python -m vmc_simulation.main --equilibration_steps 2000 --numsteps 100 --numwal
 | `--numsteps`          | Number of Metropolis steps.                                     |
 | `--equilibration_steps` | Number of thermalization steps before measurement.             |
 | `--alpha`             | Initial value of the variational parameter α.                 |
-| `--learning_rate`        | controls the step size in optimization.                 |
+| `--learning_rate`        | Controls the step size in optimization.                 |
 | `--output`            | (Optional) Directory to save results (default: `results`).     |
 
 ## Output Directory
