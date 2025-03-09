@@ -16,6 +16,7 @@ def test_raise_error_on_invalid_p():
     numsteps = 1
     numwalkers = 3
     alpha = 1.0
+    learning_rate = 0.01
 
     with patch("numpy.random.uniform") as mock_uniform, patch("numpy.random.randn") as mock_randn:
         def mock_random_uniform(*args, **kwargs):
@@ -27,7 +28,7 @@ def test_raise_error_on_invalid_p():
         mock_uniform.side_effect = mock_random_uniform
 
         with pytest.raises(ValueError, match="Division by zero detected in p calculation."):
-            metropolis(equilibration_steps, numsteps, numwalkers, alpha)
+            metropolis(equilibration_steps, numsteps, numwalkers, alpha, learning_rate)
 
 def invalid_negative_position_not_accepted():
     """
@@ -41,6 +42,7 @@ def invalid_negative_position_not_accepted():
     numsteps = 1
     numwalkers = 3
     alpha = 1.0
+    learning_rate = 0.01
 
     with patch("numpy.random.uniform") as mock_uniform, patch("numpy.random.randn") as mock_randn:
 
@@ -53,7 +55,7 @@ def invalid_negative_position_not_accepted():
         mock_uniform.side_effect = mock_random_uniform
         
         position_vec_fin, _, _, _, _, initial_pos = metropolis(
-            equilibration_steps, numsteps, numwalkers, alpha
+            equilibration_steps, numsteps, numwalkers, alpha, learning_rate
         )
         assert np.array_equal(position_vec_fin, initial_pos), "Metropolis should reject invalid moves."
         
@@ -71,12 +73,13 @@ def test_small_positive_position_effect():
     numsteps = 1
     numwalkers = 3
     alpha = 1.0
+    learning_rate = 0.01
 
     with patch("numpy.random.randn") as mock_randn:
         mock_randn.return_value = np.array([1e-10, 1e-5, 1e-8])
 
         position_vec_fin, alpha_fin, alpha_buffer, E_buffer, dE_da_buffer, initial_pos = metropolis(
-            equilibration_steps, numsteps, numwalkers, alpha
+            equilibration_steps, numsteps, numwalkers, alpha, learning_rate
         )
 
         assert position_vec_fin is not None, "The simulation did not complete successfully."
@@ -97,9 +100,12 @@ def test_alpha_convergence():
     equilibration_steps = 100
     numsteps = 50
     numwalkers = 500
-    alpha = 0.8  
+    alpha = 0.8 
+    learning_rate = 0.01 
 
-    _, alpha_fin, alpha_buffer, _, _, _ = metropolis(equilibration_steps, numsteps, numwalkers, alpha)
+    _, alpha_fin, alpha_buffer, _, _, _ = metropolis(
+        equilibration_steps, numsteps, numwalkers, alpha, learning_rate
+        )
 
     assert abs(alpha_buffer[-1] - alpha_buffer[0]) > 0.01, "Alpha did not change significantly, indicating no optimization."
     assert np.isfinite(alpha_fin), "Final alpha is not finite."
@@ -117,9 +123,12 @@ def test_final_positions_distribution():
     equilibration_steps = 100
     numsteps = 50
     numwalkers = 500
-    alpha = 0.8  
+    alpha = 0.8 
+    learning_rate = 0.01 
 
-    position_vec_fin, _, _, _, _, _ = metropolis(equilibration_steps, numsteps, numwalkers, alpha)
+    position_vec_fin, _, _, _, _, _ = metropolis(
+        equilibration_steps, numsteps, numwalkers, alpha, learning_rate
+        )
 
     assert np.all(position_vec_fin > 0), "Some walker positions are non-physical (≤ 0)."
     assert np.max(position_vec_fin) < 15, "Position values are unreasonably large."
