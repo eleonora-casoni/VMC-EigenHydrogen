@@ -135,6 +135,8 @@ def alpha_opt_on_fly(position_vec, alpha, learning_rate):
     
     Raises
     ------
+    TypeError
+        If `learning_rate` is not a float or int.
     ValueError
         If `learning_rate` is negative.
 
@@ -153,6 +155,11 @@ def alpha_opt_on_fly(position_vec, alpha, learning_rate):
     - This method ensures that alpha dynamically adjusts during the Metropolis simulation,
       improving efficiency in finding the optimal wavefunction parameters.
     """
+
+    if not isinstance(learning_rate, (int, float)):
+        raise TypeError(
+            "learning_rate must be a float or an integer."
+        )
 
     if learning_rate < 0:
         raise ValueError(

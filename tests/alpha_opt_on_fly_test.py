@@ -189,3 +189,18 @@ def test_negative_learning_rate():
     with pytest.raises(ValueError, match="Learning rate must be a non-negative number, otherwise it would cause divergence."):
         alpha_opt_on_fly(position_vec, alpha, learning_rate)
 
+@pytest.mark.parametrize("invalid_learning_rate", ["string", None, [], {}, 2 + 3j])
+def test_invalid_learning_rate_type(invalid_learning_rate):
+    """
+    Test that alpha_opt_on_fly raises TypeError for invalid learning_rate types.
+
+    GIVEN: A valid position vector and alpha.
+    WHEN: An invalid learning_rate type is passed (string, None, list, dict, bool).
+    THEN: A TypeError should be raised.
+    """
+    position_vec = np.array([1.0, 2.0, 3.0])
+    alpha = 1.0  
+
+    with pytest.raises(TypeError, match="learning_rate must be a float or an integer."):
+        alpha_opt_on_fly(position_vec, alpha, invalid_learning_rate)
+
