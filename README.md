@@ -64,11 +64,11 @@ python -m vmc_simulation.main --equilibration_steps 2000 --numsteps 100 --numwal
 
 ## Understanding The Parameters
 
-All three parameters (**equilibration_steps**, **numsteps**, **numwalkers**) affect simulation performance:
+All four parameters (**equilibration_steps**, **numsteps**, **numwalkers**, **learning_rate**) affect simulation performance:
 
-*   **Too small:** Insufficient `equilibration_steps`, `numsteps`, or `numwalkers` will result in poor statistical accuracy and unreliable results.
+*   **Too small:** Insufficient `equilibration_steps`, `numsteps`, or `numwalkers` will result in poor statistical accuracy and unreliable results. Insufficient `learning_rate` will make convergence too slow.
 
-*   **Too large:** Excessive values for these parameters will lead to extremely slow computation times or even freezing, hindering the simulation's efficiency.
+*   **Too large:** Excessive `equilibration_steps`, `numsteps`, or `numwalkers` will lead to extremely slow computation times or even freezing, hindering the simulation's efficiency. With excessive `learning_rate` the simulation may fail to converge.
 
 ⚠️  **Recommendation:** Carefully choose reasonable parameter values to strike a balance between simulation speed and the desired level of accuracy.
 
