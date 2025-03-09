@@ -101,3 +101,57 @@ def test_alpha_update_behavior():
         assert np.isfinite(new_alpha), "Updated alpha should be a finite number."
         assert np.isfinite(dE_da), "dE/da should be a finite number."
         assert new_alpha != alpha, "Alpha should update when dE_da is nonzero."
+
+def test_learning_rate_typical():
+    """
+    Test that alpha_opt_on_fly updates correctly with a typical learning rate.
+
+    GIVEN: A standard position vector, alpha, and a reasonable learning rate.
+    WHEN: The function is called.
+    THEN: Alpha should update by the expected amount.
+    """
+    position_vec = np.array([1.0, 2.0, 3.0])
+    alpha = 1.0
+    learning_rate = 0.01
+
+    dE_da = dE_dalpha(position_vec, alpha)
+    expected_alpha = alpha - learning_rate * dE_da
+    new_alpha, computed_dE_da = alpha_opt_on_fly(position_vec, alpha, learning_rate)
+
+    assert np.isclose(new_alpha, expected_alpha, atol=1e-10), f"Expected {expected_alpha}, got {new_alpha}"
+
+def test_small_learning_rate():
+    """
+    Test that alpha_opt_on_fly updates slightly when learning rate is very small.
+
+    GIVEN: A standard position vector, alpha, and a very small learning rate.
+    WHEN: The function is called.
+    THEN: Alpha should update, but by a very small amount.
+    """
+    position_vec = np.array([1.0, 2.0, 3.0])
+    alpha = 1.0
+    learning_rate = 1e-6
+
+    dE_da = dE_dalpha(position_vec, alpha)
+    expected_alpha = alpha - learning_rate * dE_da
+    new_alpha, computed_dE_da = alpha_opt_on_fly(position_vec, alpha, learning_rate)
+
+    assert np.isclose(new_alpha, expected_alpha, atol=1e-10), f"Expected {expected_alpha}, got {new_alpha}"
+
+def test_large_learning_rate():
+    """
+    Test that alpha_opt_on_fly updates significantly when learning rate is large.
+
+    GIVEN: A standard position vector, alpha, and a large learning rate.
+    WHEN: The function is called.
+    THEN: Alpha should update by a large amount.
+    """
+    position_vec = np.array([1.0, 2.0, 3.0])
+    alpha = 1.0
+    learning_rate = 5.0 
+
+    dE_da = dE_dalpha(position_vec, alpha)
+    expected_alpha = alpha - learning_rate * dE_da
+    new_alpha, computed_dE_da = alpha_opt_on_fly(position_vec, alpha, learning_rate)
+
+    assert np.isclose(new_alpha, expected_alpha, atol=1e-10), f"Expected {expected_alpha}, got {new_alpha}"
