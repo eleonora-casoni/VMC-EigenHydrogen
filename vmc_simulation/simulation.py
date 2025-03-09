@@ -132,6 +132,16 @@ def alpha_opt_on_fly(position_vec, alpha, learning_rate):
     -------
     tuple
         Updated alpha value (float) and the computed derivative dE/dα (float).
+    
+    Raises
+    ------
+    ValueError
+        If `learning_rate` is negative.
+
+    Warnings
+    --------
+    UserWarning
+        If `learning_rate` is zero, meaning alpha remains unchanged.
 
     Notes
     -----
@@ -143,6 +153,11 @@ def alpha_opt_on_fly(position_vec, alpha, learning_rate):
     - This method ensures that alpha dynamically adjusts during the Metropolis simulation,
       improving efficiency in finding the optimal wavefunction parameters.
     """
+
+    if learning_rate < 0:
+        raise ValueError(
+            "Learning rate must be a non-negative number, otherwise it would cause divergence."
+        )
 
     if learning_rate == 0:
         warnings.warn(

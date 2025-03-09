@@ -173,3 +173,19 @@ def test_alpha_remains_constant_with_zero_learning_rate():
         new_alpha, dE_da = alpha_opt_on_fly(position_vec, alpha, learning_rate)
 
     assert new_alpha == alpha, f"Expected alpha to remain {alpha}, but got {new_alpha}"
+
+def test_negative_learning_rate():
+    """
+    Test that a negative learning rate raises an error.
+
+    GIVEN: A position vector, alpha, and a negative learning rate.
+    WHEN: The function is called.
+    THEN: It should raise a ValueError or warning.
+    """
+    position_vec = np.array([1.0, 2.0, 3.0])
+    alpha = 1.0
+    learning_rate = -0.01  
+
+    with pytest.raises(ValueError, match="Learning rate must be a non-negative number, otherwise it would cause divergence."):
+        alpha_opt_on_fly(position_vec, alpha, learning_rate)
+
