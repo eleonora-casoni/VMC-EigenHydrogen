@@ -34,14 +34,20 @@ def trial_wavefunction(x, alpha):
         lead to numerical instability.
     """
     if not isinstance(alpha, (int, float)):
-        raise TypeError("Alpha must be a real number.")
+        raise TypeError(
+            "Alpha must be a real number."
+        )
 
     if alpha < -1000:
-        raise ValueError("Too large negative alpha causes numerical instability.")
+        raise ValueError(
+            "Too large negative alpha causes numerical instability."
+        )
 
     if alpha > 200:
-        raise ValueError("Too large alpha causes numerical instability.")
-
+        raise ValueError(
+            "Too large alpha causes numerical instability."
+        )
+    
     result = np.where(x > 0, np.exp(-alpha * x), 0)
     return result
 
@@ -220,7 +226,9 @@ def metropolis(equilibration_steps, numsteps, numwalkers, alpha, learning_rate):
         )
 
     if equilibration_steps < 0:
-        raise ValueError("equilibration_steps must be a non-negative integer.")
+        raise ValueError(
+            "equilibration_steps must be a non-negative integer."
+        )
 
     if equilibration_steps == 0:
         warnings.warn(
