@@ -12,10 +12,11 @@ def test_alpha_update_typical():
     """
     position_vec = np.array([1.0, 2.0, 3.0])
     alpha = 1.0
+    learning_rate = 0.01
     
     dE_da = dE_dalpha(position_vec, alpha)  
-    expected_alpha = alpha - 0.01 * dE_da  
-    new_alpha, computed_dE_da = alpha_opt_on_fly(position_vec, alpha)
+    expected_alpha = alpha - learning_rate * dE_da  
+    new_alpha, computed_dE_da = alpha_opt_on_fly(position_vec, alpha, learning_rate)
 
     assert np.isfinite(new_alpha), "Alpha should be a finite number."
     assert np.isfinite(computed_dE_da), "dE/da should be a finite number."
@@ -31,10 +32,11 @@ def test_large_positions():
     """
     position_vec = np.array([1e6, 2e6, 3e6])  
     alpha = 1.0  
+    learning_rate = 0.01
 
     dE_da = dE_dalpha(position_vec, alpha)
-    expected_alpha = alpha - 0.01 * dE_da
-    new_alpha, dE_da = alpha_opt_on_fly(position_vec, alpha)
+    expected_alpha = alpha - learning_rate * dE_da
+    new_alpha, dE_da = alpha_opt_on_fly(position_vec, alpha, learning_rate)
 
     assert np.isfinite(new_alpha), "Updated alpha should be a finite number."
     assert np.isfinite(dE_da), "dE/da should be a finite number."
@@ -50,10 +52,11 @@ def test_small_alpha():
     """
     position_vec = np.array([1.0, 2.0, 3.0])
     alpha = 1e-10  
+    learning_rate = 0.01
 
     dE_da = dE_dalpha(position_vec, alpha)
-    expected_alpha = alpha - 0.01 * dE_da  
-    new_alpha, dE_da = alpha_opt_on_fly(position_vec, alpha)
+    expected_alpha = alpha - learning_rate * dE_da  
+    new_alpha, dE_da = alpha_opt_on_fly(position_vec, alpha, learning_rate)
 
     assert np.isfinite(new_alpha), "Updated alpha should be a finite number."
     assert np.isfinite(dE_da), "dE/da should be a finite number."
@@ -69,9 +72,11 @@ def test_large_alpha():
     """
     position_vec = np.array([1.0, 2.0, 3.0])
     alpha = 1e6  
+    learning_rate = 0.01
+
     dE_da = dE_dalpha(position_vec, alpha)
-    expected_alpha = alpha - 0.01 * dE_da  
-    new_alpha, dE_da = alpha_opt_on_fly(position_vec, alpha)
+    expected_alpha = alpha - learning_rate * dE_da  
+    new_alpha, dE_da = alpha_opt_on_fly(position_vec, alpha, learning_rate)
 
     assert np.isfinite(new_alpha), "Updated alpha should be a finite number."
     assert np.isfinite(dE_da), "dE/da should be a finite number."
@@ -87,8 +92,9 @@ def test_alpha_update_behavior():
     """
     position_vec = np.array([1.0, 2.0, 3.0])
     alpha = 1.0
+    learning_rate = 0.01
 
-    new_alpha, dE_da = alpha_opt_on_fly(position_vec, alpha)
+    new_alpha, dE_da = alpha_opt_on_fly(position_vec, alpha, learning_rate)
     if dE_da == 0:
         assert new_alpha == alpha, "Alpha should remain unchanged if dE_da is zero."
     else:
