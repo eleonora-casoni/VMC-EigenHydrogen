@@ -144,6 +144,12 @@ def alpha_opt_on_fly(position_vec, alpha, learning_rate):
       improving efficiency in finding the optimal wavefunction parameters.
     """
 
+    if learning_rate == 0:
+        warnings.warn(
+            "The learning rate is set to 0. No optimization will be performed for alpha.",
+            UserWarning,
+        )
+
     dE_da = dE_dalpha(position_vec, alpha)
     alpha = alpha - learning_rate * dE_da
     return alpha, dE_da

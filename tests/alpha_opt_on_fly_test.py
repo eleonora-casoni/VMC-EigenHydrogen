@@ -1,4 +1,5 @@
 import numpy as np
+import pytest
 from vmc_simulation.simulation import alpha_opt_on_fly
 from vmc_simulation.simulation import dE_dalpha
 
@@ -155,3 +156,20 @@ def test_large_learning_rate():
     new_alpha, computed_dE_da = alpha_opt_on_fly(position_vec, alpha, learning_rate)
 
     assert np.isclose(new_alpha, expected_alpha, atol=1e-10), f"Expected {expected_alpha}, got {new_alpha}"
+
+def test_alpha_remains_constant_with_zero_learning_rate():
+    """
+    Test that when learning_rate is set to 0, alpha does not change.
+
+    GIVEN: A standard position vector and alpha with learning_rate = 0.
+    WHEN: The function is called.
+    THEN: Alpha should remain unchanged, and a warning should be raised.
+    """
+    position_vec = np.array([1.0, 2.0, 3.0])
+    alpha = 1.0
+    learning_rate = 0.0
+
+    with pytest.warns(UserWarning, match="The learning rate is set to 0. No optimization will be performed for alpha."):
+        new_alpha, dE_da = alpha_opt_on_fly(position_vec, alpha, learning_rate)
+
+    assert new_alpha == alpha, f"Expected alpha to remain {alpha}, but got {new_alpha}"
