@@ -17,6 +17,7 @@ def test_raise_error_on_invalid_p():
     numwalkers = 3
     alpha = 1.0
     learning_rate = 0.01
+    step_size = 0.1
 
     with patch("numpy.random.uniform") as mock_uniform, patch("numpy.random.randn") as mock_randn:
         def mock_random_uniform(*args, **kwargs):
@@ -28,7 +29,7 @@ def test_raise_error_on_invalid_p():
         mock_uniform.side_effect = mock_random_uniform
 
         with pytest.raises(ValueError, match="Division by zero detected in p calculation."):
-            metropolis(equilibration_steps, numsteps, numwalkers, alpha, learning_rate)
+            metropolis(equilibration_steps, numsteps, numwalkers, alpha, learning_rate, step_size)
 
 def invalid_negative_position_not_accepted():
     """
@@ -43,6 +44,7 @@ def invalid_negative_position_not_accepted():
     numwalkers = 3
     alpha = 1.0
     learning_rate = 0.01
+    step_size = 0.1
 
     with patch("numpy.random.uniform") as mock_uniform, patch("numpy.random.randn") as mock_randn:
 
@@ -55,7 +57,7 @@ def invalid_negative_position_not_accepted():
         mock_uniform.side_effect = mock_random_uniform
         
         position_vec_fin, _, _, _, _, initial_pos = metropolis(
-            equilibration_steps, numsteps, numwalkers, alpha, learning_rate
+            equilibration_steps, numsteps, numwalkers, alpha, learning_rate, step_size
         )
         assert np.array_equal(position_vec_fin, initial_pos), "Metropolis should reject invalid moves."
         
@@ -74,12 +76,13 @@ def test_small_positive_position_effect():
     numwalkers = 3
     alpha = 1.0
     learning_rate = 0.01
+    step_size = 0.1
 
     with patch("numpy.random.randn") as mock_randn:
         mock_randn.return_value = np.array([1e-10, 1e-5, 1e-8])
 
         position_vec_fin, alpha_fin, alpha_buffer, E_buffer, dE_da_buffer, initial_pos = metropolis(
-            equilibration_steps, numsteps, numwalkers, alpha, learning_rate
+            equilibration_steps, numsteps, numwalkers, alpha, learning_rate, step_size
         )
 
         assert position_vec_fin is not None, "The simulation did not complete successfully."
@@ -102,9 +105,10 @@ def test_alpha_convergence():
     numwalkers = 500
     alpha = 0.8 
     learning_rate = 0.01 
+    step_size = 0.1
 
     _, alpha_fin, alpha_buffer, _, _, _ = metropolis(
-        equilibration_steps, numsteps, numwalkers, alpha, learning_rate
+        equilibration_steps, numsteps, numwalkers, alpha, learning_rate, step_size
         )
 
     assert abs(alpha_buffer[-1] - alpha_buffer[0]) > 0.01, "Alpha did not change significantly, indicating no optimization."
@@ -125,9 +129,10 @@ def test_final_positions_distribution():
     numwalkers = 500
     alpha = 0.8 
     learning_rate = 0.01 
+    step_size = 0.1
 
     position_vec_fin, _, _, _, _, _ = metropolis(
-        equilibration_steps, numsteps, numwalkers, alpha, learning_rate
+        equilibration_steps, numsteps, numwalkers, alpha, learning_rate, step_size
         )
 
     assert np.all(position_vec_fin > 0), "Some walker positions are non-physical (≤ 0)."
@@ -145,15 +150,16 @@ def test_invalid_types_input_parameters(invalid_value):
     np.random.seed(42)
     alpha = 1.0 
     learning_rate = 0.01
+    step_size = 0.1
 
     with pytest.raises(TypeError, match="equilibration_steps, numsteps, and numwalkers must be integers."):
-        metropolis(invalid_value, 100, 500, alpha, learning_rate)  
+        metropolis(invalid_value, 100, 500, alpha, learning_rate, step_size)  
 
     with pytest.raises(TypeError, match="equilibration_steps, numsteps, and numwalkers must be integers."):
-        metropolis(100, invalid_value, 500, alpha, learning_rate)  
+        metropolis(100, invalid_value, 500, alpha, learning_rate, step_size)  
 
     with pytest.raises(TypeError, match="equilibration_steps, numsteps, and numwalkers must be integers."):
-        metropolis(100, 100, invalid_value, alpha, learning_rate) 
+        metropolis(100, 100, invalid_value, alpha, learning_rate, step_size) 
 
 @pytest.mark.parametrize("invalid_value", [0, -1, -100])
 def test_invalid_numsteps_and_numwalkers(invalid_value):
@@ -167,11 +173,12 @@ def test_invalid_numsteps_and_numwalkers(invalid_value):
     np.random.seed(42)
     alpha = 1.0  
     learning_rate = 0.01
+    step_size = 0.1
 
     with pytest.raises(ValueError, match="numsteps and numwalkers must be positive integers greater than 0."):
-        metropolis(100, invalid_value, 500, alpha, learning_rate)  
+        metropolis(100, invalid_value, 500, alpha, learning_rate, step_size)  
     with pytest.raises(ValueError, match="numsteps and numwalkers must be positive integers greater than 0."):
-        metropolis(100, 100, invalid_value, alpha, learning_rate) 
+        metropolis(100, 100, invalid_value, alpha, learning_rate, step_size) 
 
 @pytest.mark.parametrize("invalid_value", [-1, -100])
 def test_invalid_equilibration_steps(invalid_value):
@@ -185,9 +192,10 @@ def test_invalid_equilibration_steps(invalid_value):
     np.random.seed(42)
     alpha = 1.0 
     learning_rate = 0.01 
+    step_size = 0.1
 
     with pytest.raises(ValueError, match="equilibration_steps must be a non-negative integer."):
-        metropolis(invalid_value, 100, 500, alpha, learning_rate)  
+        metropolis(invalid_value, 100, 500, alpha, learning_rate, step_size)  
 
 def test_equilibration_zero_warning():
     """
@@ -200,4 +208,4 @@ def test_equilibration_zero_warning():
     np.random.seed(42)
 
     with pytest.warns(UserWarning, match="equilibration_steps is set to 0. The system will not equilibrate before optimization."):
-        metropolis(0, 10, 10, 1.0, 0.01) 
+        metropolis(0, 10, 10, 1.0, 0.01, 0.1) 

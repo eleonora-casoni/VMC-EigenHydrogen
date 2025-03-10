@@ -177,7 +177,7 @@ def alpha_opt_on_fly(position_vec, alpha, learning_rate):
     return alpha, dE_da
 
 
-def metropolis(equilibration_steps, numsteps, numwalkers, alpha, learning_rate):
+def metropolis(equilibration_steps, numsteps, numwalkers, alpha, learning_rate, step_size):
     """
     Perform Metropolis-Hastings sampling to optimize walker positions and the variational parameter alpha.
 
@@ -197,6 +197,9 @@ def metropolis(equilibration_steps, numsteps, numwalkers, alpha, learning_rate):
         Initial value of the variational parameter alpha. It is updated iteratively to minimize energy.
     learning_rate : float
         Step size for updating alpha.
+    step_size : float
+        Magnitude of the random displacements applied to walker positions during Metropolis updates.
+
 
     Returns
     -------
@@ -237,6 +240,7 @@ def metropolis(equilibration_steps, numsteps, numwalkers, alpha, learning_rate):
         - `equilibration_steps = 3000`: Ensures the system stabilizes before collecting data.
         - `alpha ≈ 0.8`: Initial guess, typically converging toward the optimal value (≈0.5 for hydrogen atom).
         - `learning_rate = 0.01`: Controls the step size in alpha optimization.
+        - `step_size = 0.1`: Controls how much walkers move in each Metropolis step.
     """
 
     if (
@@ -272,7 +276,7 @@ def metropolis(equilibration_steps, numsteps, numwalkers, alpha, learning_rate):
 
     for j in tqdm(range(numsteps)):
         for i in range(equilibration_steps):
-            new_position_vec = position_vec + 0.1 * np.random.randn(numwalkers)
+            new_position_vec = position_vec + step_size * np.random.randn(numwalkers)
             denominator = trial_wavefunction(position_vec, alpha)
             numerator = trial_wavefunction(new_position_vec, alpha)
             invalid_indices = denominator == 0

@@ -43,7 +43,14 @@ def main():
         "--learning-rate", 
         type=float, 
         default=0.01, 
-        help="Learning rate for alpha optimization (default: 0.01)")
+        help="Learning rate for alpha optimization (default: 0.01)"
+    )
+    parser.add_argument(
+        "--step-size", 
+        type=float, 
+        default=0.1, 
+        help="Magnitude of random displacements (default: 0.1)"
+    )
 
     # Output options
     parser.add_argument(
@@ -56,7 +63,7 @@ def main():
     args = parser.parse_args()
 
     position_vec_fin, alpha_fin, alpha_buffer, E_buffer, dE_da_buffer, initial_pos = (
-        metropolis(args.equilibration_steps, args.numsteps, args.numwalkers, args.alpha, args.learning_rate)
+        metropolis(args.equilibration_steps, args.numsteps, args.numwalkers, args.alpha, args.learning_rate, args.step_size)
     )
 
     # expected values

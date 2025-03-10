@@ -44,7 +44,7 @@ python -m vmc_simulation.main
 To specify custom values for the simulation parameters run:
 
 ```bash
-python -m vmc_simulation.main --equilibration_steps 2000 --numsteps 100 --numwalkers 3000 --alpha 1 --learning-rate 0.005 --output-dir my_results
+python -m vmc_simulation.main --equilibration_steps 2000 --numsteps 100 --numwalkers 3000 --alpha 1 --learning-rate 0.005 --step-size 0.3 --output-dir my_results
 
 ```
 ### Available Arguments
@@ -53,9 +53,10 @@ python -m vmc_simulation.main --equilibration_steps 2000 --numsteps 100 --numwal
 |-----------------------|----------------------------------------------------------------|
 | `--numwalkers`        | Number of walkers exploring the phase space.                    |
 | `--numsteps`          | Number of Metropolis steps.                                     |
-| `--equilibration_steps` | Number of thermalization steps before measurement.             |
+| `--equilibration-steps` | Number of thermalization steps before measurement.             |
 | `--alpha`             | Initial value of the variational parameter α.                 |
-| `--learning_rate`        | Controls the step size in optimization.                 |
+| `--learning-rate`        | Controls the step size in optimization.                 |
+| `--step-size`        | Magnitude of random displacements in equilibration.                 |
 | `--output`            | (Optional) Directory to save results (default: `results`).     |
 
 ## Output Directory
