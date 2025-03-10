@@ -1,4 +1,5 @@
 import configparser
+import os
 
 def parse_config_file(config_path):
     """
@@ -13,7 +14,18 @@ def parse_config_file(config_path):
     -------
     dict
         A dictionary containing simulation parameters from the config file.
+    
+    Raises
+    ------
+    FileNotFoundError
+        If the specified config file does not exist.
+
     """
+    if not os.path.exists(config_path):
+        raise FileNotFoundError(
+            f"Configuration file '{config_path}' not found."
+        )
+    
     config = configparser.ConfigParser()
     config.read(config_path)
 
