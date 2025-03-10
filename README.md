@@ -15,7 +15,7 @@ Variational Monte Carlo method to estimate ground state energy for the Hydrogen 
 
 ## Overview
 This project implements a **Variational Monte Carlo (VMC) approach** to estimate the ground-state energy of the **hydrogen atom**. The **Metropolis-Hastings algorithm** is used to sample the wavefunction, while **on-the-fly parameter optimization** is performed to refine the variational parameter \( alpha \). If you're new to VMC and want to understand the theory behind this method, check out:  
-📖**[Computational Physics (2nd Edition) - Jos Thijssen](https://www.cambridge.org/)** (Cambridge University Press)
+📖[Computational Physics (2nd Edition) - Jos Thijssen](https://www.cambridge.org/) (Cambridge University Press)
 
 ## Features
 - ✅ Implements **Metropolis-Hastings sampling**  
@@ -47,6 +47,15 @@ To specify custom values for the simulation parameters run:
 python -m vmc_simulation.main --equilibration_steps 2000 --numsteps 100 --numwalkers 3000 --alpha 1 --learning-rate 0.005 --step-size 0.3 --output-dir my_results
 
 ```
+**Run with configuration file**
+The [`config_files`](config_files/) folder contains configuration files. if you want to use them, run
+
+```bash
+python -m vmc_simulation.main --config filename.ini
+
+```
+You can even provide you own `.ini` configuration file, just save it in the [`config_files`](config_files/) folder. If some parameters are not specified, defaults will be used. 
+
 ### Available Arguments
 
 | Argument              | Description                                                    |
@@ -87,7 +96,8 @@ VMC-EigenHydrogen/
 │   ├── __init__.py  
 │   ├── main.py           # Runs the full VMC simulation  
 │   ├── simulation.py     # Core simulation functions  
-│   ├── plot.py           # Plotting & result-saving functions  
+│   ├── plot.py           # Plotting & result-saving functions
+│   ├── config_handler.py  # Handles config files    
 ├── 📂tests/              # Unit tests for all components  
 ├── 📂results/            # Default folder for generated plots & CSVs  
 ├── requirements.txt      # Required dependencies  
