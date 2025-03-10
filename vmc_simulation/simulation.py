@@ -252,9 +252,9 @@ def metropolis(equilibration_steps, numsteps, numwalkers, alpha, learning_rate, 
             "equilibration_steps, numsteps, and numwalkers must be integers."
         )
 
-    if numsteps <= 0 or numwalkers <= 0:
+    if numsteps <= 0 or numwalkers <= 0 or step_size <= 0:
         raise ValueError(
-            "numsteps and numwalkers must be positive integers greater than 0."
+            "numsteps, numwalkers and step size must be positive integers greater than 0 to allow walker movement."
         )
 
     if equilibration_steps < 0:

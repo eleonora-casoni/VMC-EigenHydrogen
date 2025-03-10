@@ -173,12 +173,13 @@ def test_invalid_numsteps_and_numwalkers(invalid_value):
     np.random.seed(42)
     alpha = 1.0  
     learning_rate = 0.01
-    step_size = 0.1
 
-    with pytest.raises(ValueError, match="numsteps and numwalkers must be positive integers greater than 0."):
-        metropolis(100, invalid_value, 500, alpha, learning_rate, step_size)  
-    with pytest.raises(ValueError, match="numsteps and numwalkers must be positive integers greater than 0."):
-        metropolis(100, 100, invalid_value, alpha, learning_rate, step_size) 
+    with pytest.raises(ValueError, match="numsteps, numwalkers and step size must be positive integers greater than 0 to allow walker movement."):
+        metropolis(100, invalid_value, 500, alpha, learning_rate, 0.1)  
+    with pytest.raises(ValueError, match="numsteps, numwalkers and step size must be positive integers greater than 0 to allow walker movement."):
+        metropolis(100, 100, invalid_value, alpha, learning_rate, 0.1)
+    with pytest.raises(ValueError, match="numsteps, numwalkers and step size must be positive integers greater than 0 to allow walker movement."):
+        metropolis(100, 100, 100, alpha, learning_rate, invalid_value)  
 
 @pytest.mark.parametrize("invalid_value", [-1, -100])
 def test_invalid_equilibration_steps(invalid_value):
@@ -209,3 +210,4 @@ def test_equilibration_zero_warning():
 
     with pytest.warns(UserWarning, match="equilibration_steps is set to 0. The system will not equilibrate before optimization."):
         metropolis(0, 10, 10, 1.0, 0.01, 0.1) 
+
