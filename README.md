@@ -34,20 +34,20 @@ pip install -r requirements.txt
 ## Usage
 You can run the simulation using the default parameters or specify custom parameters.
 
-**Run with Default Parameters**
+**Run with Default Parameters:**
 To run the simulation with default parameters, simply execute:
 
 ```bash
 python -m vmc_simulation.main 
 ```
-**Run with Custom Parameters**
+**Run with Custom Parameters:**
 To specify custom values for the simulation parameters run:
 
 ```bash
 python -m vmc_simulation.main --equilibration_steps 2000 --numsteps 100 --numwalkers 3000 --alpha 1 --learning-rate 0.005 --step-size 0.3 --output-dir my_results
 
 ```
-**Run with configuration file**
+**Run with configuration file:**
 The [`config_files`](config_files/) folder contains configuration files. if you want to use them, run
 
 ```bash
@@ -96,7 +96,7 @@ VMC-EigenHydrogen/
 │   ├── __init__.py  
 │   ├── main.py           # Runs the full VMC simulation  
 │   ├── simulation.py     # Core simulation functions  
-│   ├── plot.py           # Plotting & result-saving functions
+│   ├── plot.py           # Plotting & result-saving functions  
 │   ├── config_handler.py  # Handles config files    
 ├── 📂tests/              # Unit tests for all components  
 ├── 📂results/            # Default folder for generated plots & CSVs  
