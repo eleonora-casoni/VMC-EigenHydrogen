@@ -54,7 +54,7 @@ The [`config_files`](config_files/) folder contains configuration files. if you 
 python -m vmc_simulation.main --config filename.ini
 
 ```
-You can even provide you own `.ini` configuration file, just save it in the [`config_files`](config_files/) folder. If some parameters are not specified, defaults will be used. 
+You can even provide you own `.ini` configuration file, just save it in the [`config_files`](config_files/) folder. 
 
 ### Available Arguments
 
