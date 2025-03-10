@@ -144,15 +144,16 @@ def test_invalid_types_input_parameters(invalid_value):
     """
     np.random.seed(42)
     alpha = 1.0 
+    learning_rate = 0.01
 
     with pytest.raises(TypeError, match="equilibration_steps, numsteps, and numwalkers must be integers."):
-        metropolis(invalid_value, 100, 500, alpha)  
+        metropolis(invalid_value, 100, 500, alpha, learning_rate)  
 
     with pytest.raises(TypeError, match="equilibration_steps, numsteps, and numwalkers must be integers."):
-        metropolis(100, invalid_value, 500, alpha)  
+        metropolis(100, invalid_value, 500, alpha, learning_rate)  
 
     with pytest.raises(TypeError, match="equilibration_steps, numsteps, and numwalkers must be integers."):
-        metropolis(100, 100, invalid_value, alpha) 
+        metropolis(100, 100, invalid_value, alpha, learning_rate) 
 
 @pytest.mark.parametrize("invalid_value", [0, -1, -100])
 def test_invalid_numsteps_and_numwalkers(invalid_value):
@@ -165,11 +166,12 @@ def test_invalid_numsteps_and_numwalkers(invalid_value):
     """
     np.random.seed(42)
     alpha = 1.0  
+    learning_rate = 0.01
 
     with pytest.raises(ValueError, match="numsteps and numwalkers must be positive integers greater than 0."):
-        metropolis(100, invalid_value, 500, alpha)  
+        metropolis(100, invalid_value, 500, alpha, learning_rate)  
     with pytest.raises(ValueError, match="numsteps and numwalkers must be positive integers greater than 0."):
-        metropolis(100, 100, invalid_value, alpha) 
+        metropolis(100, 100, invalid_value, alpha, learning_rate) 
 
 @pytest.mark.parametrize("invalid_value", [-1, -100])
 def test_invalid_equilibration_steps(invalid_value):
@@ -181,10 +183,11 @@ def test_invalid_equilibration_steps(invalid_value):
     THEN: A ValueError should be raised with the correct error message.
     """
     np.random.seed(42)
-    alpha = 1.0  
+    alpha = 1.0 
+    learning_rate = 0.01 
 
     with pytest.raises(ValueError, match="equilibration_steps must be a non-negative integer."):
-        metropolis(invalid_value, 100, 500, alpha)  
+        metropolis(invalid_value, 100, 500, alpha, learning_rate)  
 
 def test_equilibration_zero_warning():
     """
@@ -197,4 +200,4 @@ def test_equilibration_zero_warning():
     np.random.seed(42)
 
     with pytest.warns(UserWarning, match="equilibration_steps is set to 0. The system will not equilibrate before optimization."):
-        metropolis(0, 10, 10, 1.0) 
+        metropolis(0, 10, 10, 1.0, 0.01) 
