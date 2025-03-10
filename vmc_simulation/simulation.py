@@ -251,6 +251,11 @@ def metropolis(equilibration_steps, numsteps, numwalkers, alpha, learning_rate, 
         raise TypeError(
             "equilibration_steps, numsteps, and numwalkers must be integers."
         )
+    
+    if not isinstance(step_size, (int, float)):
+        raise TypeError(
+            "step size must be a float or an integer."
+        )
 
     if numsteps <= 0 or numwalkers <= 0 or step_size <= 0:
         raise ValueError(

@@ -161,6 +161,20 @@ def test_invalid_types_input_parameters(invalid_value):
     with pytest.raises(TypeError, match="equilibration_steps, numsteps, and numwalkers must be integers."):
         metropolis(100, 100, invalid_value, alpha, learning_rate, step_size) 
 
+@pytest.mark.parametrize("invalid_value", ["string", 2 + 3j, [], {}])
+def test_invalid_types_step_size(invalid_value):
+    """
+    Test that metropolis raises a TypeError when given non-integer or float inputs for step_size.
+    
+    GIVEN: A non-integer or float value for step_size.
+    WHEN: The metropolis function is called with any alpha value.
+    THEN: The function should raise a TypeError.
+    """
+    np.random.seed(42) 
+
+    with pytest.raises(TypeError, match="step size must be a float or an integer."):
+        metropolis(100, 100, 500, 1.0, 0.01, invalid_value) 
+
 @pytest.mark.parametrize("invalid_value", [0, -1, -100])
 def test_invalid_numsteps_and_numwalkers(invalid_value):
     """
