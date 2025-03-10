@@ -135,6 +135,12 @@ Plots are also generated:
 *   📈 Alpha evolution over iterations
 *   📉 Energy evolution over iterations
 
+### ℹ️ Accessing Help  
+For a complete list of parameters, their descriptions and their default values run:  
+```bash
+python -m vmc_simulation.main --help
+```
+
 ## License
 This project is licensed under the **MIT License**.
 
