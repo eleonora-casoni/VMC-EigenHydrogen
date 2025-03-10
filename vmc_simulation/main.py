@@ -1,5 +1,7 @@
 import argparse
+import sys
 from vmc_simulation.simulation import metropolis
+from vmc_simulation.config_handler import parse_config_file
 from vmc_simulation.plot import (
     plot_position,
     plot_alpha_evolution,
@@ -16,10 +18,15 @@ def main():
 
     # Input options
     parser.add_argument(
+        "--config",
+        type=str,
+        help="Path to configuration file (.ini). Command-line arguments override config file values."
+    )
+    parser.add_argument(
         "--numwalkers",
         type=int,
         default=4000,
-        help="Number of Monte Carlo walkers (default: 5000)",
+        help="Number of Monte Carlo walkers (default: 4000)",
     )
     parser.add_argument(
         "--numsteps",
@@ -37,7 +44,7 @@ def main():
         "--alpha",
         type=float,
         default=1.2,
-        help="Initial variational parameter alpha (default: 0.8)",
+        help="Initial variational parameter alpha (default: 1.2)",
     )
     parser.add_argument(
         "--learning-rate", 
@@ -61,6 +68,19 @@ def main():
     )
 
     args = parser.parse_args()
+    config_args = {}
+    if args.config:
+        config_args = parse_config_file(args.config)
+
+    for key, value in vars(args).items():
+        if f"--{key}" in sys.argv and value is not None:  
+            config_args[key] = value 
+    
+    for key, value in config_args.items():
+        if value is None and key in parser._option_string_actions: 
+            setattr(args, key, parser.get_default(key))
+        else:
+            setattr(args, key, value)
 
     position_vec_fin, alpha_fin, alpha_buffer, E_buffer, dE_da_buffer, initial_pos = (
         metropolis(args.equilibration_steps, args.numsteps, args.numwalkers, args.alpha, args.learning_rate, args.step_size)
