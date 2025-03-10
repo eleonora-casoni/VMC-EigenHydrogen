@@ -100,6 +100,7 @@ VMC-EigenHydrogen/
 │   ├── config_handler.py  # Handles config files    
 ├── 📂tests/              # Unit tests for all components  
 ├── 📂results/            # Default folder for generated plots & CSVs  
+├── 📂config_files/       # stores configuration files    
 ├── requirements.txt      # Required dependencies  
 ├── README.md             # Documentation  
 ├── .gitignore            # Git ignore file  
