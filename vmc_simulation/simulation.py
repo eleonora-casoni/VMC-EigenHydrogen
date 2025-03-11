@@ -34,20 +34,14 @@ def trial_wavefunction(x, alpha):
         lead to numerical instability.
     """
     if not isinstance(alpha, (int, float)):
-        raise TypeError(
-            "Alpha must be a real number."
-        )
+        raise TypeError("Alpha must be a real number.")
 
     if alpha < -1000:
-        raise ValueError(
-            "Too large negative alpha causes numerical instability."
-        )
+        raise ValueError("Too large negative alpha causes numerical instability.")
 
     if alpha > 200:
-        raise ValueError(
-            "Too large alpha causes numerical instability."
-        )
-    
+        raise ValueError("Too large alpha causes numerical instability.")
+
     result = np.where(x > 0, np.exp(-alpha * x), 0)
     return result
 
@@ -132,7 +126,7 @@ def alpha_opt_on_fly(position_vec, alpha, learning_rate):
     -------
     tuple
         Updated alpha value (float) and the computed derivative dE/dα (float).
-    
+
     Raises
     ------
     TypeError
@@ -157,9 +151,7 @@ def alpha_opt_on_fly(position_vec, alpha, learning_rate):
     """
 
     if not isinstance(learning_rate, (int, float)):
-        raise TypeError(
-            "learning_rate must be a float or an integer."
-        )
+        raise TypeError("learning_rate must be a float or an integer.")
 
     if learning_rate < 0:
         raise ValueError(
@@ -177,7 +169,9 @@ def alpha_opt_on_fly(position_vec, alpha, learning_rate):
     return alpha, dE_da
 
 
-def metropolis(equilibration_steps, numsteps, numwalkers, alpha, learning_rate, step_size):
+def metropolis(
+    equilibration_steps, numsteps, numwalkers, alpha, learning_rate, step_size
+):
     """
     Perform Metropolis-Hastings sampling to optimize walker positions and the variational parameter alpha.
 
@@ -251,11 +245,9 @@ def metropolis(equilibration_steps, numsteps, numwalkers, alpha, learning_rate, 
         raise TypeError(
             "equilibration_steps, numsteps, and numwalkers must be integers."
         )
-    
+
     if not isinstance(step_size, (int, float)):
-        raise TypeError(
-            "step size must be a float or an integer."
-        )
+        raise TypeError("step size must be a float or an integer.")
 
     if numsteps <= 0 or numwalkers <= 0 or step_size <= 0:
         raise ValueError(
@@ -263,9 +255,7 @@ def metropolis(equilibration_steps, numsteps, numwalkers, alpha, learning_rate, 
         )
 
     if equilibration_steps < 0:
-        raise ValueError(
-            "equilibration_steps must be a non-negative integer."
-        )
+        raise ValueError("equilibration_steps must be a non-negative integer.")
 
     if equilibration_steps == 0:
         warnings.warn(

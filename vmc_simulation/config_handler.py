@@ -1,6 +1,7 @@
 import configparser
 import os
 
+
 def parse_config_file(config_path):
     """
     Reads a configuration file and extracts parameters.
@@ -14,7 +15,7 @@ def parse_config_file(config_path):
     -------
     dict
         A dictionary containing simulation parameters from the config file.
-    
+
     Raises
     ------
     FileNotFoundError
@@ -22,13 +23,10 @@ def parse_config_file(config_path):
 
     """
     if not os.path.exists(config_path):
-        raise FileNotFoundError(
-            f"Configuration file '{config_path}' not found."
-        )
-    
+        raise FileNotFoundError(f"Configuration file '{config_path}' not found.")
+
     config = configparser.ConfigParser()
     config.read(config_path)
-
     config_params = {}
 
     if "Simulation" in config:

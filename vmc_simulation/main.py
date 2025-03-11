@@ -20,7 +20,7 @@ def main():
     parser.add_argument(
         "--config",
         type=str,
-        help="Path to configuration file (.ini). Command-line arguments override config file values."
+        help="Path to configuration file (.ini). Command-line arguments override config file values.",
     )
     parser.add_argument(
         "--numwalkers",
@@ -47,16 +47,16 @@ def main():
         help="Initial variational parameter alpha (default: 1.2)",
     )
     parser.add_argument(
-        "--learning-rate", 
-        type=float, 
-        default=0.01, 
-        help="Learning rate for alpha optimization (default: 0.01)"
+        "--learning-rate",
+        type=float,
+        default=0.01,
+        help="Learning rate for alpha optimization (default: 0.01)",
     )
     parser.add_argument(
-        "--step-size", 
-        type=float, 
-        default=0.1, 
-        help="Magnitude of random displacements (default: 0.1)"
+        "--step-size",
+        type=float,
+        default=0.1,
+        help="Magnitude of random displacements (default: 0.1)",
     )
 
     # Output options
@@ -73,17 +73,24 @@ def main():
         config_args = parse_config_file(args.config)
 
     for key, value in vars(args).items():
-        if f"--{key}" in sys.argv and value is not None:  
-            config_args[key] = value 
-    
+        if f"--{key}" in sys.argv and value is not None:
+            config_args[key] = value
+
     for key, value in config_args.items():
-        if value is None and key in parser._option_string_actions: 
+        if value is None and key in parser._option_string_actions:
             setattr(args, key, parser.get_default(key))
         else:
             setattr(args, key, value)
 
     position_vec_fin, alpha_fin, alpha_buffer, E_buffer, dE_da_buffer, initial_pos = (
-        metropolis(args.equilibration_steps, args.numsteps, args.numwalkers, args.alpha, args.learning_rate, args.step_size)
+        metropolis(
+            args.equilibration_steps,
+            args.numsteps,
+            args.numwalkers,
+            args.alpha,
+            args.learning_rate,
+            args.step_size,
+        )
     )
 
     # expected values

@@ -3,6 +3,7 @@ import pytest
 from vmc_simulation.simulation import alpha_opt_on_fly
 from vmc_simulation.simulation import dE_dalpha
 
+
 def test_alpha_update_typical():
     """
     Test that alpha_opt_on_fly updates alpha correctly with typical values.
@@ -14,14 +15,17 @@ def test_alpha_update_typical():
     position_vec = np.array([1.0, 2.0, 3.0])
     alpha = 1.0
     learning_rate = 0.01
-    
-    dE_da = dE_dalpha(position_vec, alpha)  
-    expected_alpha = alpha - learning_rate * dE_da  
+
+    dE_da = dE_dalpha(position_vec, alpha)
+    expected_alpha = alpha - learning_rate * dE_da
     new_alpha, computed_dE_da = alpha_opt_on_fly(position_vec, alpha, learning_rate)
 
     assert np.isfinite(new_alpha), "Alpha should be a finite number."
     assert np.isfinite(computed_dE_da), "dE/da should be a finite number."
-    assert np.isclose(new_alpha, expected_alpha, atol=1e-10), f"Expected {expected_alpha}, got {new_alpha}"
+    assert np.isclose(
+        new_alpha, expected_alpha, atol=1e-10
+    ), f"Expected {expected_alpha}, got {new_alpha}"
+
 
 def test_large_positions():
     """
@@ -31,8 +35,8 @@ def test_large_positions():
     WHEN: The function is called.
     THEN: The function should return an updated alpha without overflow.
     """
-    position_vec = np.array([1e6, 2e6, 3e6])  
-    alpha = 1.0  
+    position_vec = np.array([1e6, 2e6, 3e6])
+    alpha = 1.0
     learning_rate = 0.01
 
     dE_da = dE_dalpha(position_vec, alpha)
@@ -41,7 +45,10 @@ def test_large_positions():
 
     assert np.isfinite(new_alpha), "Updated alpha should be a finite number."
     assert np.isfinite(dE_da), "dE/da should be a finite number."
-    assert np.isclose(new_alpha, expected_alpha, atol=1e-10), f"Expected {expected_alpha}, got {new_alpha}"
+    assert np.isclose(
+        new_alpha, expected_alpha, atol=1e-10
+    ), f"Expected {expected_alpha}, got {new_alpha}"
+
 
 def test_small_alpha():
     """
@@ -52,16 +59,19 @@ def test_small_alpha():
     THEN: The function should return an updated alpha without underflow.
     """
     position_vec = np.array([1.0, 2.0, 3.0])
-    alpha = 1e-10  
+    alpha = 1e-10
     learning_rate = 0.01
 
     dE_da = dE_dalpha(position_vec, alpha)
-    expected_alpha = alpha - learning_rate * dE_da  
+    expected_alpha = alpha - learning_rate * dE_da
     new_alpha, dE_da = alpha_opt_on_fly(position_vec, alpha, learning_rate)
 
     assert np.isfinite(new_alpha), "Updated alpha should be a finite number."
     assert np.isfinite(dE_da), "dE/da should be a finite number."
-    assert np.isclose(new_alpha, expected_alpha, atol=1e-10), f"Expected {expected_alpha}, got {new_alpha}"
+    assert np.isclose(
+        new_alpha, expected_alpha, atol=1e-10
+    ), f"Expected {expected_alpha}, got {new_alpha}"
+
 
 def test_large_alpha():
     """
@@ -72,16 +82,19 @@ def test_large_alpha():
     THEN: The function should return an updated alpha without overflow.
     """
     position_vec = np.array([1.0, 2.0, 3.0])
-    alpha = 1e6  
+    alpha = 1e6
     learning_rate = 0.01
 
     dE_da = dE_dalpha(position_vec, alpha)
-    expected_alpha = alpha - learning_rate * dE_da  
+    expected_alpha = alpha - learning_rate * dE_da
     new_alpha, dE_da = alpha_opt_on_fly(position_vec, alpha, learning_rate)
 
     assert np.isfinite(new_alpha), "Updated alpha should be a finite number."
     assert np.isfinite(dE_da), "dE/da should be a finite number."
-    assert np.isclose(new_alpha, expected_alpha, atol=1e-10), f"Expected {expected_alpha}, got {new_alpha}"
+    assert np.isclose(
+        new_alpha, expected_alpha, atol=1e-10
+    ), f"Expected {expected_alpha}, got {new_alpha}"
+
 
 def test_alpha_update_behavior():
     """
@@ -103,6 +116,7 @@ def test_alpha_update_behavior():
         assert np.isfinite(dE_da), "dE/da should be a finite number."
         assert new_alpha != alpha, "Alpha should update when dE_da is nonzero."
 
+
 def test_learning_rate_typical():
     """
     Test that alpha_opt_on_fly updates correctly with a typical learning rate.
@@ -119,7 +133,10 @@ def test_learning_rate_typical():
     expected_alpha = alpha - learning_rate * dE_da
     new_alpha, computed_dE_da = alpha_opt_on_fly(position_vec, alpha, learning_rate)
 
-    assert np.isclose(new_alpha, expected_alpha, atol=1e-10), f"Expected {expected_alpha}, got {new_alpha}"
+    assert np.isclose(
+        new_alpha, expected_alpha, atol=1e-10
+    ), f"Expected {expected_alpha}, got {new_alpha}"
+
 
 def test_small_learning_rate():
     """
@@ -137,7 +154,10 @@ def test_small_learning_rate():
     expected_alpha = alpha - learning_rate * dE_da
     new_alpha, computed_dE_da = alpha_opt_on_fly(position_vec, alpha, learning_rate)
 
-    assert np.isclose(new_alpha, expected_alpha, atol=1e-10), f"Expected {expected_alpha}, got {new_alpha}"
+    assert np.isclose(
+        new_alpha, expected_alpha, atol=1e-10
+    ), f"Expected {expected_alpha}, got {new_alpha}"
+
 
 def test_large_learning_rate():
     """
@@ -149,13 +169,16 @@ def test_large_learning_rate():
     """
     position_vec = np.array([1.0, 2.0, 3.0])
     alpha = 1.0
-    learning_rate = 5.0 
+    learning_rate = 5.0
 
     dE_da = dE_dalpha(position_vec, alpha)
     expected_alpha = alpha - learning_rate * dE_da
     new_alpha, computed_dE_da = alpha_opt_on_fly(position_vec, alpha, learning_rate)
 
-    assert np.isclose(new_alpha, expected_alpha, atol=1e-10), f"Expected {expected_alpha}, got {new_alpha}"
+    assert np.isclose(
+        new_alpha, expected_alpha, atol=1e-10
+    ), f"Expected {expected_alpha}, got {new_alpha}"
+
 
 def test_alpha_remains_constant_with_zero_learning_rate():
     """
@@ -169,10 +192,14 @@ def test_alpha_remains_constant_with_zero_learning_rate():
     alpha = 1.0
     learning_rate = 0.0
 
-    with pytest.warns(UserWarning, match="The learning rate is set to 0. No optimization will be performed for alpha."):
+    with pytest.warns(
+        UserWarning,
+        match="The learning rate is set to 0. No optimization will be performed for alpha.",
+    ):
         new_alpha, dE_da = alpha_opt_on_fly(position_vec, alpha, learning_rate)
 
     assert new_alpha == alpha, f"Expected alpha to remain {alpha}, but got {new_alpha}"
+
 
 def test_negative_learning_rate():
     """
@@ -184,10 +211,14 @@ def test_negative_learning_rate():
     """
     position_vec = np.array([1.0, 2.0, 3.0])
     alpha = 1.0
-    learning_rate = -0.01  
+    learning_rate = -0.01
 
-    with pytest.raises(ValueError, match="Learning rate must be a non-negative number, otherwise it would cause divergence."):
+    with pytest.raises(
+        ValueError,
+        match="Learning rate must be a non-negative number, otherwise it would cause divergence.",
+    ):
         alpha_opt_on_fly(position_vec, alpha, learning_rate)
+
 
 @pytest.mark.parametrize("invalid_learning_rate", ["string", None, [], {}, 2 + 3j])
 def test_invalid_learning_rate_type(invalid_learning_rate):
@@ -199,8 +230,7 @@ def test_invalid_learning_rate_type(invalid_learning_rate):
     THEN: A TypeError should be raised.
     """
     position_vec = np.array([1.0, 2.0, 3.0])
-    alpha = 1.0  
+    alpha = 1.0
 
     with pytest.raises(TypeError, match="learning_rate must be a float or an integer."):
         alpha_opt_on_fly(position_vec, alpha, invalid_learning_rate)
-
